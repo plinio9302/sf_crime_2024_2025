@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SF Crime 2024 vs 2025 — Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1" integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ" crossorigin="anonymous"></script>
+<style>
+:root{
+  --bg-primary:#f6f7f9; --bg-card:#ffffff; --bg-header:#132743;
+  --text-primary:#1c2733; --text-secondary:#5b6b7a; --text-on-dark:#f2f5f8;
+  --color-1:#3b6fa0; --color-2:#dd8452; --color-3:#4f9d69; --color-4:#c44e52;
+  --color-5:#8172b3; --color-6:#937860; --color-7:#4aa9b8;
+  --positive:#2e8b47; --negative:#c1443b; --neutral:#6c757d;
+  --gap:16px; --radius:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg-primary);color:var(--text-primary);line-height:1.55}
+.wrap{max-width:1320px;margin:0 auto;padding:var(--gap)}
+header{background:var(--bg-header);color:var(--text-on-dark);padding:22px 26px;border-radius:var(--radius);margin-bottom:var(--gap)}
+header h1{font-size:21px;font-weight:700}
+header p{font-size:13px;color:#b7c4d3;margin-top:6px;max-width:900px}
+.tabs{display:flex;gap:8px;margin:14px 0 var(--gap);flex-wrap:wrap}
+.tab-btn{background:var(--bg-card);border:1px solid #dbe1e8;color:var(--text-secondary);padding:8px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer}
+.tab-btn.active{background:var(--bg-header);color:#fff;border-color:var(--bg-header)}
+.edu{background:#eef4fb;border-left:4px solid var(--color-1);border-radius:6px;padding:14px 16px;margin-bottom:var(--gap);font-size:13.5px;color:#233648}
+.edu b{color:#132743}
+.edu.warn{background:#fdf1ea;border-left-color:var(--color-2)}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--gap);margin-bottom:var(--gap)}
+.kpi-card{background:var(--bg-card);border-radius:var(--radius);padding:18px 22px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.kpi-label{font-size:12px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi-value{font-size:26px;font-weight:700}
+.kpi-change{font-size:12.5px;font-weight:600;margin-top:4px}
+.kpi-change.positive{color:var(--positive)} .kpi-change.negative{color:var(--negative)}
+.chart-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:var(--gap);margin-bottom:var(--gap)}
+.chart-row.two{grid-template-columns:1fr 1fr}
+.chart-container{background:var(--bg-card);border-radius:var(--radius);padding:18px 22px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.chart-container h3{font-size:14px;font-weight:700;margin-bottom:4px}
+.chart-container .sub{font-size:12px;color:var(--text-secondary);margin-bottom:14px}
+.chart-container canvas{max-height:320px}
+.table-section{background:var(--bg-card);border-radius:var(--radius);padding:18px 22px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow-x:auto;margin-bottom:var(--gap)}
+.table-section h3{font-size:14px;font-weight:700;margin-bottom:12px}
+.data-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.data-table thead th{text-align:left;padding:9px 10px;border-bottom:2px solid #dfe4ea;color:var(--text-secondary);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px;cursor:pointer;white-space:nowrap}
+.data-table tbody td{padding:9px 10px;border-bottom:1px solid #f0f2f5}
+.data-table tbody tr:hover{background:#f8f9fb}
+.filters{display:flex;gap:10px;align-items:center;margin:10px 0 var(--gap);flex-wrap:wrap}
+.filters select{padding:7px 10px;border:1px solid #cfd7df;border-radius:6px;background:#fff;font-size:13px}
+.section{display:none}
+.section.active{display:block}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
+.badge.up{background:#fdeceb;color:var(--negative)}
+.badge.down{background:#e9f6ec;color:var(--positive)}
+footer{text-align:center;color:var(--text-secondary);font-size:12px;padding:18px 0 6px}
+@media(max-width:768px){.kpi-row{grid-template-columns:repeat(2,1fr)}.chart-row,.chart-row.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SF Crime Analysis — 2024 vs 2025</h1>
+    <p>An educational, self-contained walkthrough of a real Python + SQL analysis of 230,000+ San Francisco Police Department incident reports.
+       Every panel below is annotated with what the underlying SQL query does and why — this dashboard doubles as a teaching artifact for the pipeline that built it.</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="overview">1. Overview &amp; Data Quality</button>
+    <button class="tab-btn" data-tab="trends">2. Category &amp; District Trends</button>
+    <button class="tab-btn" data-tab="time">3. Time Patterns</button>
+    <button class="tab-btn" data-tab="safety">4. Safety Ranking</button>
+    <button class="tab-btn" data-tab="howbuilt">5. How This Was Built</button>
+  </div>
+
+  <!-- ============ SECTION 1: OVERVIEW ============ -->
+  <section id="overview" class="section active">
+    <div class="edu warn">
+      <b>Step 1 — The most important thing we found before trusting any number:</b>
+      the file <code>SFcrime2025_processed.csv</code> is <i>not</i> a clean calendar year.
+      It's a rolling export that runs from 2025-01-02 through 2026-04-25, so 26,462 of its 121,194 rows
+      are actually incidents dated in <b>2026</b>. If you just count rows in "the 2025 file", crime looks like it went
+      <span class="badge up">UP</span>. Once you filter every query by the real <code>IncidentDate</code> year instead
+      of which file a row came from, the conclusion flips to <span class="badge down">DOWN 13.78%</span>.
+      This is a classic "trust the data, not the filename" lesson — see Tab 5 for the exact SQL.
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi-card"><div class="kpi-label">2024 Incidents (true calendar year)</div><div class="kpi-value">109,342</div></div>
+      <div class="kpi-card"><div class="kpi-label">2025 Incidents (true calendar year)</div><div class="kpi-value">94,280</div></div>
+      <div class="kpi-card"><div class="kpi-label">Year-over-year change</div><div class="kpi-value" style="color:var(--positive)">-13.78%</div><div class="kpi-change positive">15,062 fewer incidents</div></div>
+      <div class="kpi-card"><div class="kpi-label">Clearance rate improvement</div><div class="kpi-value">23.6% → 30.4%</div><div class="kpi-change positive">Cite/Arrest Adult share, 2024→2025</div></div>
+    </div>
+
+    <div class="chart-row two">
+      <div class="chart-container">
+        <h3>Total Incidents by Year</h3>
+        <div class="sub">SQL: <code>GROUP BY incident_year WHERE incident_year IN (2024,2025)</code> on the cleaned, unified view.</div>
+        <canvas id="chartYoY"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Case Resolution Outcomes</h3>
+        <div class="sub">Share of cases by outcome, each year. Clearance (Cite/Arrest) rose even as total volume fell.</div>
+        <canvas id="chartResolution"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 2: TRENDS ============ -->
+  <section id="trends" class="section">
+    <div class="edu">
+      <b>Step 2 — Which crime types and districts moved the needle?</b>
+      A window function (<code>SUM(...) OVER (PARTITION BY incident_year)</code>) computes each category's
+      <i>share</i> of that year's total in one pass — no self-join needed. Then a separate JOIN compares raw counts
+      year-over-year per category so we can rank the biggest movers.
+    </div>
+
+    <div class="chart-row two">
+      <div class="chart-container">
+        <h3>Top Crime Categories (2025)</h3>
+        <div class="sub">Larceny Theft is still #1, but its <i>share</i> of all crime shrank from 24.1% to 21.5%.</div>
+        <canvas id="chartCategory"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Incidents by Police District</h3>
+        <div class="sub">Southern overtook Mission as the top-volume district in 2025.</div>
+        <canvas id="chartDistrict"></canvas>
+      </div>
+    </div>
+
+    <div class="table-section">
+      <h3>Biggest Year-over-Year Movers by Category</h3>
+      <div class="sub" style="margin-bottom:10px">Click a column header to sort. <code>pct_change</code> compares 2024 → 2025 for categories with a meaningful base volume.</div>
+      <table class="data-table" id="tblMovers"></table>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 3: TIME ============ -->
+  <section id="time" class="section">
+    <div class="edu">
+      <b>Step 3 — Does crime follow a weekly or seasonal rhythm?</b>
+      Two GROUP BY queries on the cleaned view: one by <code>day_of_week</code> (derived with <code>DAYNAME()</code> in MySQL /
+      the day-name column from the raw data here), one by <code>incident_month</code>. SQLite doesn't have MySQL's
+      <code>FIELD()</code> function to force weekday order, so that sort is done in pandas instead — a good example of
+      splitting work between SQL (aggregation) and Python (presentation logic).
+    </div>
+    <div class="chart-row two">
+      <div class="chart-container">
+        <h3>Incidents by Day of Week</h3>
+        <div class="sub">Wednesday and Friday are the busiest days; Sunday is the quietest.</div>
+        <canvas id="chartDow"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Monthly Seasonality, 2024 vs 2025</h3>
+        <div class="sub">Every single month of 2025 came in below its 2024 counterpart — a broad decline, not one outlier month.</div>
+        <canvas id="chartMonth"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 4: SAFETY ============ -->
+  <section id="safety" class="section">
+    <div class="edu">
+      <b>Step 4 — Ranking districts by "safety."</b>
+      We define safety here purely as <i>incident volume</i>: <code>RANK() OVER (ORDER BY COUNT(*) ASC)</code> across
+      the combined two-year total. <b>Caveat:</b> this measures volume, not severity or population density — a
+      district could rank "less safe" simply because more people live or work there. Treat this as a starting point
+      for further investigation, not a verdict.
+    </div>
+    <div class="table-section">
+      <h3>District Safety Ranking (fewest incidents = safest)</h3>
+      <table class="data-table" id="tblSafety"></table>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 5: HOW BUILT ============ -->
+  <section id="howbuilt" class="section">
+    <div class="edu">
+      <b>Step 5 — The pipeline behind this dashboard, end to end:</b>
+      <ol style="margin:10px 0 0 20px">
+        <li><b>pandas.read_csv()</b> loads the two raw SFPD CSVs (109,626 and 121,194 rows).</li>
+        <li><b>df.to_sql()</b> loads both DataFrames into a local SQLite database — no server required.</li>
+        <li>A <b>SQL view</b> (<code>sfcrime_combined_clean</code>) unions the two years, drops rows with missing
+            category/district, and derives <code>incident_year</code> straight from <code>IncidentDate</code>
+            (never from which file a row came from).</li>
+        <li>Nine <b>SQL queries</b> — the same structure as the original MySQL analysis — answer the case-study's
+            questions: year-over-year totals, category/district/resolution breakdowns, day-of-week and monthly
+            seasonality, and the district safety ranking.</li>
+        <li>Each query's result is pulled back into <b>pandas</b>, exported to CSV for reuse, and bundled into
+            <code>dashboard_data.json</code> — the exact numbers rendered in this dashboard.</li>
+        <li>This HTML file embeds that JSON directly and renders it with <b>Chart.js</b>, so the dashboard opens and
+            works completely offline — no server, no live database connection.</li>
+      </ol>
+      <p style="margin-top:12px">Full source: <code>analysis/run_analysis.py</code> (heavily commented) and
+      <code>SF_crime_analysis.sql</code> (the original MySQL version) in this repository.</p>
+    </div>
+  </section>
+
+  <footer>Data source: SF Police Department Open Data (data.sfgov.org) · Pipeline: Python (pandas + sqlite3) + SQL · plinio9302/sf_crime_2024_2025</footer>
+</div>
+
+<script>
+const DATA = {"generated_from": {"rows_2024": 109626, "rows_2025_raw": 121194}, "yoy_totals": [{"incident_year": 2024, "total_incidents": 109342}, {"incident_year": 2025, "total_incidents": 94280}], "yoy_category": [{"category": "Civil Sidewalks", "incidents_2024": 1, "incidents_2025": 73, "net_change": 72, "pct_change": 7200.0}, {"category": "Human Trafficking (A), Commercial Sex Acts", "incidents_2024": 2, "incidents_2025": 7, "net_change": 5, "pct_change": 250.0}, {"category": "Motor Vehicle Theft?", "incidents_2024": 6, "incidents_2025": 11, "net_change": 5, "pct_change": 83.33}, {"category": "Drug Offense", "incidents_2024": 4122, "incidents_2025": 6684, "net_change": 2562, "pct_change": 62.15}, {"category": "Weapons Offence", "incidents_2024": 2, "incidents_2025": 3, "net_change": 1, "pct_change": 50.0}, {"category": "Warrant", "incidents_2024": 4534, "incidents_2025": 5617, "net_change": 1083, "pct_change": 23.89}, {"category": "Forgery And Counterfeiting", "incidents_2024": 460, "incidents_2025": 538, "net_change": 78, "pct_change": 16.96}, {"category": "Homicide", "incidents_2024": 42, "incidents_2025": 47, "net_change": 5, "pct_change": 11.9}, {"category": "Vehicle Impounded", "incidents_2024": 133, "incidents_2025": 147, "net_change": 14, "pct_change": 10.53}, {"category": "Vehicle Misplaced", "incidents_2024": 47, "incidents_2025": 51, "net_change": 4, "pct_change": 8.51}, {"category": "Gambling", "incidents_2024": 14, "incidents_2025": 15, "net_change": 1, "pct_change": 7.14}, {"category": "Suicide", "incidents_2024": 54, "incidents_2025": 57, "net_change": 3, "pct_change": 5.56}, {"category": "Fire Report", "incidents_2024": 162, "incidents_2025": 169, "net_change": 7, "pct_change": 4.32}, {"category": "Offences Against The Family And Children", "incidents_2024": 1569, "incidents_2025": 1620, "net_change": 51, "pct_change": 3.25}, {"category": "Fraud", "incidents_2024": 3376, "incidents_2025": 3468, "net_change": 92, "pct_change": 2.73}, {"category": "Lost Property", "incidents_2024": 3398, "incidents_2025": 3485, "net_change": 87, "pct_change": 2.56}, {"category": "Drug Violation", "incidents_2024": 37, "incidents_2025": 37, "net_change": 0, "pct_change": 0.0}, {"category": "Prostitution", "incidents_2024": 98, "incidents_2025": 97, "net_change": -1, "pct_change": -1.02}, {"category": "Miscellaneous Investigation", "incidents_2024": 1926, "incidents_2025": 1900, "net_change": -26, "pct_change": -1.35}, {"category": "Arson", "incidents_2024": 311, "incidents_2025": 306, "net_change": -5, "pct_change": -1.61}, {"category": "Disorderly Conduct", "incidents_2024": 2521, "incidents_2025": 2458, "net_change": -63, "pct_change": -2.5}, {"category": "Non-Criminal", "incidents_2024": 3926, "incidents_2025": 3750, "net_change": -176, "pct_change": -4.48}, {"category": "Weapons Carrying Etc", "incidents_2024": 743, "incidents_2025": 699, "net_change": -44, "pct_change": -5.92}, {"category": "Courtesy Report", "incidents_2024": 365, "incidents_2025": 339, "net_change": -26, "pct_change": -7.12}, {"category": "Missing Person", "incidents_2024": 2584, "incidents_2025": 2384, "net_change": -200, "pct_change": -7.74}, {"category": "Suspicious", "incidents_2024": 11, "incidents_2025": 10, "net_change": -1, "pct_change": -9.09}, {"category": "Suspicious Occ", "incidents_2024": 2385, "incidents_2025": 2130, "net_change": -255, "pct_change": -10.69}, {"category": "Other", "incidents_2024": 1020, "incidents_2025": 898, "net_change": -122, "pct_change": -11.96}, {"category": "Assault", "incidents_2024": 8225, "incidents_2025": 7199, "net_change": -1026, "pct_change": -12.47}, {"category": "Traffic Violation Arrest", "incidents_2024": 927, "incidents_2025": 801, "net_change": -126, "pct_change": -13.59}, {"category": "Case Closure", "incidents_2024": 482, "incidents_2025": 408, "net_change": -74, "pct_change": -15.35}, {"category": "Other Miscellaneous", "incidents_2024": 7789, "incidents_2025": 6505, "net_change": -1284, "pct_change": -16.48}, {"category": "Traffic Collision", "incidents_2024": 396, "incidents_2025": 328, "net_change": -68, "pct_change": -17.17}, {"category": "Embezzlement", "incidents_2024": 112, "incidents_2025": 92, "net_change": -20, "pct_change": -17.86}, {"category": "Weapons Offense", "incidents_2024": 919, "incidents_2025": 754, "net_change": -165, "pct_change": -17.95}, {"category": "Stolen Property", "incidents_2024": 550, "incidents_2025": 451, "net_change": -99, "pct_change": -18.0}, {"category": "Other Offenses", "incidents_2024": 958, "incidents_2025": 781, "net_change": -177, "pct_change": -18.48}, {"category": "Malicious Mischief", "incidents_2024": 7495, "incidents_2025": 6059, "net_change": -1436, "pct_change": -19.16}, {"category": "Larceny Theft", "incidents_2024": 26318, "incidents_2025": 20305, "net_change": -6013, "pct_change": -22.85}, {"category": "Robbery", "incidents_2024": 2408, "incidents_2025": 1851, "net_change": -557, "pct_change": -23.13}, {"category": "Burglary", "incidents_2024": 6212, "incidents_2025": 4546, "net_change": -1666, "pct_change": -26.82}, {"category": "Recovered Vehicle", "incidents_2024": 4924, "incidents_2025": 2836, "net_change": -2088, "pct_change": -42.4}, {"category": "Motor Vehicle Theft", "incidents_2024": 7226, "incidents_2025": 4114, "net_change": -3112, "pct_change": -43.07}, {"category": "Rape", "incidents_2024": 35, "incidents_2025": 19, "net_change": -16, "pct_change": -45.71}, {"category": "Vandalism", "incidents_2024": 324, "incidents_2025": 164, "net_change": -160, "pct_change": -49.38}, {"category": "Sex Offense", "incidents_2024": 162, "incidents_2025": 56, "net_change": -106, "pct_change": -65.43}, {"category": "Liquor Laws", "incidents_2024": 30, "incidents_2025": 9, "net_change": -21, "pct_change": -70.0}], "by_category": [{"incident_year": 2024, "IncidentCategory": "Larceny Theft", "num_crimes": 26318, "pct_of_year": 24.07}, {"incident_year": 2024, "IncidentCategory": "Assault", "num_crimes": 8225, "pct_of_year": 7.52}, {"incident_year": 2024, "IncidentCategory": "Other Miscellaneous", "num_crimes": 7789, "pct_of_year": 7.12}, {"incident_year": 2024, "IncidentCategory": "Malicious Mischief", "num_crimes": 7495, "pct_of_year": 6.85}, {"incident_year": 2024, "IncidentCategory": "Motor Vehicle Theft", "num_crimes": 7226, "pct_of_year": 6.61}, {"incident_year": 2024, "IncidentCategory": "Burglary", "num_crimes": 6212, "pct_of_year": 5.68}, {"incident_year": 2024, "IncidentCategory": "Recovered Vehicle", "num_crimes": 4924, "pct_of_year": 4.5}, {"incident_year": 2024, "IncidentCategory": "Warrant", "num_crimes": 4534, "pct_of_year": 4.15}, {"incident_year": 2024, "IncidentCategory": "Drug Offense", "num_crimes": 4122, "pct_of_year": 3.77}, {"incident_year": 2024, "IncidentCategory": "Non-Criminal", "num_crimes": 3926, "pct_of_year": 3.59}, {"incident_year": 2024, "IncidentCategory": "Lost Property", "num_crimes": 3398, "pct_of_year": 3.11}, {"incident_year": 2024, "IncidentCategory": "Fraud", "num_crimes": 3376, "pct_of_year": 3.09}, {"incident_year": 2024, "IncidentCategory": "Missing Person", "num_crimes": 2584, "pct_of_year": 2.36}, {"incident_year": 2024, "IncidentCategory": "Disorderly Conduct", "num_crimes": 2521, "pct_of_year": 2.31}, {"incident_year": 2024, "IncidentCategory": "Robbery", "num_crimes": 2408, "pct_of_year": 2.2}, {"incident_year": 2024, "IncidentCategory": "Suspicious Occ", "num_crimes": 2385, "pct_of_year": 2.18}, {"incident_year": 2024, "IncidentCategory": "Miscellaneous Investigation", "num_crimes": 1926, "pct_of_year": 1.76}, {"incident_year": 2024, "IncidentCategory": "Offences Against The Family And Children", "num_crimes": 1569, "pct_of_year": 1.43}, {"incident_year": 2024, "IncidentCategory": "Other", "num_crimes": 1020, "pct_of_year": 0.93}, {"incident_year": 2024, "IncidentCategory": "Other Offenses", "num_crimes": 958, "pct_of_year": 0.88}, {"incident_year": 2024, "IncidentCategory": "Traffic Violation Arrest", "num_crimes": 927, "pct_of_year": 0.85}, {"incident_year": 2024, "IncidentCategory": "Weapons Offense", "num_crimes": 919, "pct_of_year": 0.84}, {"incident_year": 2024, "IncidentCategory": "Weapons Carrying Etc", "num_crimes": 743, "pct_of_year": 0.68}, {"incident_year": 2024, "IncidentCategory": "Stolen Property", "num_crimes": 550, "pct_of_year": 0.5}, {"incident_year": 2024, "IncidentCategory": "Case Closure", "num_crimes": 482, "pct_of_year": 0.44}, {"incident_year": 2024, "IncidentCategory": "Forgery And Counterfeiting", "num_crimes": 460, "pct_of_year": 0.42}, {"incident_year": 2024, "IncidentCategory": "Traffic Collision", "num_crimes": 396, "pct_of_year": 0.36}, {"incident_year": 2024, "IncidentCategory": "Courtesy Report", "num_crimes": 365, "pct_of_year": 0.33}, {"incident_year": 2024, "IncidentCategory": "Vandalism", "num_crimes": 324, "pct_of_year": 0.3}, {"incident_year": 2024, "IncidentCategory": "Arson", "num_crimes": 311, "pct_of_year": 0.28}, {"incident_year": 2024, "IncidentCategory": "Fire Report", "num_crimes": 162, "pct_of_year": 0.15}, {"incident_year": 2024, "IncidentCategory": "Sex Offense", "num_crimes": 162, "pct_of_year": 0.15}, {"incident_year": 2024, "IncidentCategory": "Vehicle Impounded", "num_crimes": 133, "pct_of_year": 0.12}, {"incident_year": 2024, "IncidentCategory": "Embezzlement", "num_crimes": 112, "pct_of_year": 0.1}, {"incident_year": 2024, "IncidentCategory": "Prostitution", "num_crimes": 98, "pct_of_year": 0.09}, {"incident_year": 2024, "IncidentCategory": "Suicide", "num_crimes": 54, "pct_of_year": 0.05}, {"incident_year": 2024, "IncidentCategory": "Vehicle Misplaced", "num_crimes": 47, "pct_of_year": 0.04}, {"incident_year": 2024, "IncidentCategory": "Homicide", "num_crimes": 42, "pct_of_year": 0.04}, {"incident_year": 2024, "IncidentCategory": "Drug Violation", "num_crimes": 37, "pct_of_year": 0.03}, {"incident_year": 2024, "IncidentCategory": "Rape", "num_crimes": 35, "pct_of_year": 0.03}, {"incident_year": 2024, "IncidentCategory": "Liquor Laws", "num_crimes": 30, "pct_of_year": 0.03}, {"incident_year": 2024, "IncidentCategory": "Gambling", "num_crimes": 14, "pct_of_year": 0.01}, {"incident_year": 2024, "IncidentCategory": "Suspicious", "num_crimes": 11, "pct_of_year": 0.01}, {"incident_year": 2024, "IncidentCategory": "Motor Vehicle Theft?", "num_crimes": 6, "pct_of_year": 0.01}, {"incident_year": 2024, "IncidentCategory": "Human Trafficking (A), Commercial Sex Acts", "num_crimes": 2, "pct_of_year": 0.0}, {"incident_year": 2024, "IncidentCategory": "Weapons Offence", "num_crimes": 2, "pct_of_year": 0.0}, {"incident_year": 2024, "IncidentCategory": "Civil Sidewalks", "num_crimes": 1, "pct_of_year": 0.0}, {"incident_year": 2024, "IncidentCategory": "Human Trafficking (B), Involuntary Servitude", "num_crimes": 1, "pct_of_year": 0.0}, {"incident_year": 2025, "IncidentCategory": "Larceny Theft", "num_crimes": 20305, "pct_of_year": 21.54}, {"incident_year": 2025, "IncidentCategory": "Assault", "num_crimes": 7199, "pct_of_year": 7.64}, {"incident_year": 2025, "IncidentCategory": "Drug Offense", "num_crimes": 6684, "pct_of_year": 7.09}, {"incident_year": 2025, "IncidentCategory": "Other Miscellaneous", "num_crimes": 6505, "pct_of_year": 6.9}, {"incident_year": 2025, "IncidentCategory": "Malicious Mischief", "num_crimes": 6059, "pct_of_year": 6.43}, {"incident_year": 2025, "IncidentCategory": "Warrant", "num_crimes": 5617, "pct_of_year": 5.96}, {"incident_year": 2025, "IncidentCategory": "Burglary", "num_crimes": 4546, "pct_of_year": 4.82}, {"incident_year": 2025, "IncidentCategory": "Motor Vehicle Theft", "num_crimes": 4114, "pct_of_year": 4.36}, {"incident_year": 2025, "IncidentCategory": "Non-Criminal", "num_crimes": 3750, "pct_of_year": 3.98}, {"incident_year": 2025, "IncidentCategory": "Lost Property", "num_crimes": 3485, "pct_of_year": 3.7}, {"incident_year": 2025, "IncidentCategory": "Fraud", "num_crimes": 3468, "pct_of_year": 3.68}, {"incident_year": 2025, "IncidentCategory": "Recovered Vehicle", "num_crimes": 2836, "pct_of_year": 3.01}, {"incident_year": 2025, "IncidentCategory": "Disorderly Conduct", "num_crimes": 2458, "pct_of_year": 2.61}, {"incident_year": 2025, "IncidentCategory": "Missing Person", "num_crimes": 2384, "pct_of_year": 2.53}, {"incident_year": 2025, "IncidentCategory": "Suspicious Occ", "num_crimes": 2130, "pct_of_year": 2.26}, {"incident_year": 2025, "IncidentCategory": "Miscellaneous Investigation", "num_crimes": 1900, "pct_of_year": 2.02}, {"incident_year": 2025, "IncidentCategory": "Robbery", "num_crimes": 1851, "pct_of_year": 1.96}, {"incident_year": 2025, "IncidentCategory": "Offences Against The Family And Children", "num_crimes": 1620, "pct_of_year": 1.72}, {"incident_year": 2025, "IncidentCategory": "Other", "num_crimes": 898, "pct_of_year": 0.95}, {"incident_year": 2025, "IncidentCategory": "Traffic Violation Arrest", "num_crimes": 801, "pct_of_year": 0.85}, {"incident_year": 2025, "IncidentCategory": "Other Offenses", "num_crimes": 781, "pct_of_year": 0.83}, {"incident_year": 2025, "IncidentCategory": "Weapons Offense", "num_crimes": 754, "pct_of_year": 0.8}, {"incident_year": 2025, "IncidentCategory": "Weapons Carrying Etc", "num_crimes": 699, "pct_of_year": 0.74}, {"incident_year": 2025, "IncidentCategory": "Forgery And Counterfeiting", "num_crimes": 538, "pct_of_year": 0.57}, {"incident_year": 2025, "IncidentCategory": "Stolen Property", "num_crimes": 451, "pct_of_year": 0.48}, {"incident_year": 2025, "IncidentCategory": "Case Closure", "num_crimes": 408, "pct_of_year": 0.43}, {"incident_year": 2025, "IncidentCategory": "Courtesy Report", "num_crimes": 339, "pct_of_year": 0.36}, {"incident_year": 2025, "IncidentCategory": "Traffic Collision", "num_crimes": 328, "pct_of_year": 0.35}, {"incident_year": 2025, "IncidentCategory": "Arson", "num_crimes": 306, "pct_of_year": 0.32}, {"incident_year": 2025, "IncidentCategory": "Fire Report", "num_crimes": 169, "pct_of_year": 0.18}, {"incident_year": 2025, "IncidentCategory": "Vandalism", "num_crimes": 164, "pct_of_year": 0.17}, {"incident_year": 2025, "IncidentCategory": "Vehicle Impounded", "num_crimes": 147, "pct_of_year": 0.16}, {"incident_year": 2025, "IncidentCategory": "Prostitution", "num_crimes": 97, "pct_of_year": 0.1}, {"incident_year": 2025, "IncidentCategory": "Embezzlement", "num_crimes": 92, "pct_of_year": 0.1}, {"incident_year": 2025, "IncidentCategory": "Civil Sidewalks", "num_crimes": 73, "pct_of_year": 0.08}, {"incident_year": 2025, "IncidentCategory": "Suicide", "num_crimes": 57, "pct_of_year": 0.06}, {"incident_year": 2025, "IncidentCategory": "Sex Offense", "num_crimes": 56, "pct_of_year": 0.06}, {"incident_year": 2025, "IncidentCategory": "Vehicle Misplaced", "num_crimes": 51, "pct_of_year": 0.05}, {"incident_year": 2025, "IncidentCategory": "Homicide", "num_crimes": 47, "pct_of_year": 0.05}, {"incident_year": 2025, "IncidentCategory": "Drug Violation", "num_crimes": 37, "pct_of_year": 0.04}, {"incident_year": 2025, "IncidentCategory": "Rape", "num_crimes": 19, "pct_of_year": 0.02}, {"incident_year": 2025, "IncidentCategory": "Gambling", "num_crimes": 15, "pct_of_year": 0.02}, {"incident_year": 2025, "IncidentCategory": "Motor Vehicle Theft?", "num_crimes": 11, "pct_of_year": 0.01}, {"incident_year": 2025, "IncidentCategory": "Suspicious", "num_crimes": 10, "pct_of_year": 0.01}, {"incident_year": 2025, "IncidentCategory": "Liquor Laws", "num_crimes": 9, "pct_of_year": 0.01}, {"incident_year": 2025, "IncidentCategory": "Human Trafficking (A), Commercial Sex Acts", "num_crimes": 7, "pct_of_year": 0.01}, {"incident_year": 2025, "IncidentCategory": "Weapons Offence", "num_crimes": 3, "pct_of_year": 0.0}, {"incident_year": 2025, "IncidentCategory": "Human Trafficking, Commercial Sex Acts", "num_crimes": 2, "pct_of_year": 0.0}], "by_district": [{"incident_year": 2024, "PoliceDistrict": "Mission", "num_crimes": 14195, "pct_of_year": 12.98}, {"incident_year": 2024, "PoliceDistrict": "Southern", "num_crimes": 13911, "pct_of_year": 12.72}, {"incident_year": 2024, "PoliceDistrict": "Central", "num_crimes": 13689, "pct_of_year": 12.52}, {"incident_year": 2024, "PoliceDistrict": "Northern", "num_crimes": 13329, "pct_of_year": 12.19}, {"incident_year": 2024, "PoliceDistrict": "Tenderloin", "num_crimes": 13320, "pct_of_year": 12.18}, {"incident_year": 2024, "PoliceDistrict": "Bayview", "num_crimes": 9669, "pct_of_year": 8.84}, {"incident_year": 2024, "PoliceDistrict": "Ingleside", "num_crimes": 9004, "pct_of_year": 8.23}, {"incident_year": 2024, "PoliceDistrict": "Taraval", "num_crimes": 7957, "pct_of_year": 7.28}, {"incident_year": 2024, "PoliceDistrict": "Richmond", "num_crimes": 5488, "pct_of_year": 5.02}, {"incident_year": 2024, "PoliceDistrict": "Out of SF", "num_crimes": 4463, "pct_of_year": 4.08}, {"incident_year": 2024, "PoliceDistrict": "Park", "num_crimes": 4317, "pct_of_year": 3.95}, {"incident_year": 2025, "PoliceDistrict": "Southern", "num_crimes": 14841, "pct_of_year": 15.74}, {"incident_year": 2025, "PoliceDistrict": "Mission", "num_crimes": 13480, "pct_of_year": 14.3}, {"incident_year": 2025, "PoliceDistrict": "Tenderloin", "num_crimes": 12388, "pct_of_year": 13.14}, {"incident_year": 2025, "PoliceDistrict": "Northern", "num_crimes": 11019, "pct_of_year": 11.69}, {"incident_year": 2025, "PoliceDistrict": "Central", "num_crimes": 10340, "pct_of_year": 10.97}, {"incident_year": 2025, "PoliceDistrict": "Bayview", "num_crimes": 8190, "pct_of_year": 8.69}, {"incident_year": 2025, "PoliceDistrict": "Taraval", "num_crimes": 6643, "pct_of_year": 7.05}, {"incident_year": 2025, "PoliceDistrict": "Ingleside", "num_crimes": 6491, "pct_of_year": 6.88}, {"incident_year": 2025, "PoliceDistrict": "Richmond", "num_crimes": 4090, "pct_of_year": 4.34}, {"incident_year": 2025, "PoliceDistrict": "Park", "num_crimes": 3632, "pct_of_year": 3.85}, {"incident_year": 2025, "PoliceDistrict": "Out of SF", "num_crimes": 3166, "pct_of_year": 3.36}], "by_resolution": [{"incident_year": 2024, "Resolution": "Open or Active", "num_cases": 82769, "pct_of_year": 75.7}, {"incident_year": 2024, "Resolution": "Cite or Arrest Adult", "num_cases": 25823, "pct_of_year": 23.62}, {"incident_year": 2024, "Resolution": "Unfounded", "num_cases": 385, "pct_of_year": 0.35}, {"incident_year": 2024, "Resolution": "Exceptional Adult", "num_cases": 365, "pct_of_year": 0.33}, {"incident_year": 2025, "Resolution": "Open or Active", "num_cases": 64952, "pct_of_year": 68.89}, {"incident_year": 2025, "Resolution": "Cite or Arrest Adult", "num_cases": 28661, "pct_of_year": 30.4}, {"incident_year": 2025, "Resolution": "Unfounded", "num_cases": 387, "pct_of_year": 0.41}, {"incident_year": 2025, "Resolution": "Exceptional Adult", "num_cases": 280, "pct_of_year": 0.3}], "by_day_of_week": [{"day_of_week": "Sunday", "total_incidents": 26058, "incidents_2024": 14190, "incidents_2025": 11868}, {"day_of_week": "Monday", "total_incidents": 28255, "incidents_2024": 15288, "incidents_2025": 12967}, {"day_of_week": "Tuesday", "total_incidents": 29936, "incidents_2024": 16314, "incidents_2025": 13622}, {"day_of_week": "Wednesday", "total_incidents": 31120, "incidents_2024": 16468, "incidents_2025": 14652}, {"day_of_week": "Thursday", "total_incidents": 29937, "incidents_2024": 15857, "incidents_2025": 14080}, {"day_of_week": "Friday", "total_incidents": 30955, "incidents_2024": 16530, "incidents_2025": 14425}, {"day_of_week": "Saturday", "total_incidents": 27361, "incidents_2024": 14695, "incidents_2025": 12666}], "by_month": [{"incident_month": 1, "incidents_2024": 9248, "incidents_2025": 8006, "month_name": "Jan"}, {"incident_month": 2, "incidents_2024": 9395, "incidents_2025": 7721, "month_name": "Feb"}, {"incident_month": 3, "incidents_2024": 9469, "incidents_2025": 8261, "month_name": "Mar"}, {"incident_month": 4, "incidents_2024": 9218, "incidents_2025": 7725, "month_name": "Apr"}, {"incident_month": 5, "incidents_2024": 9279, "incidents_2025": 8112, "month_name": "May"}, {"incident_month": 6, "incidents_2024": 9103, "incidents_2025": 7386, "month_name": "Jun"}, {"incident_month": 7, "incidents_2024": 9769, "incidents_2025": 7903, "month_name": "Jul"}, {"incident_month": 8, "incidents_2024": 9494, "incidents_2025": 8134, "month_name": "Aug"}, {"incident_month": 9, "incidents_2024": 9116, "incidents_2025": 7761, "month_name": "Sep"}, {"incident_month": 10, "incidents_2024": 9190, "incidents_2025": 8124, "month_name": "Oct"}, {"incident_month": 11, "incidents_2024": 8000, "incidents_2025": 7734, "month_name": "Nov"}, {"incident_month": 12, "incidents_2024": 8061, "incidents_2025": 7413, "month_name": "Dec"}], "safety_rank": [{"PoliceDistrict": "Out of SF", "incidents_2024": 4463, "incidents_2025": 3166, "total_incidents": 7629, "safety_rank": 1}, {"PoliceDistrict": "Park", "incidents_2024": 4317, "incidents_2025": 3632, "total_incidents": 7949, "safety_rank": 2}, {"PoliceDistrict": "Richmond", "incidents_2024": 5488, "incidents_2025": 4090, "total_incidents": 9578, "safety_rank": 3}, {"PoliceDistrict": "Taraval", "incidents_2024": 7957, "incidents_2025": 6643, "total_incidents": 14600, "safety_rank": 4}, {"PoliceDistrict": "Ingleside", "incidents_2024": 9004, "incidents_2025": 6491, "total_incidents": 15495, "safety_rank": 5}, {"PoliceDistrict": "Bayview", "incidents_2024": 9669, "incidents_2025": 8190, "total_incidents": 17859, "safety_rank": 6}, {"PoliceDistrict": "Central", "incidents_2024": 13689, "incidents_2025": 10340, "total_incidents": 24029, "safety_rank": 7}, {"PoliceDistrict": "Northern", "incidents_2024": 13329, "incidents_2025": 11019, "total_incidents": 24348, "safety_rank": 8}, {"PoliceDistrict": "Tenderloin", "incidents_2024": 13320, "incidents_2025": 12388, "total_incidents": 25708, "safety_rank": 9}, {"PoliceDistrict": "Mission", "incidents_2024": 14195, "incidents_2025": 13480, "total_incidents": 27675, "safety_rank": 10}, {"PoliceDistrict": "Southern", "incidents_2024": 13911, "incidents_2025": 14841, "total_incidents": 28752, "safety_rank": 11}], "top_category_per_district": [{"PoliceDistrict": "Bayview", "IncidentCategory": "Larceny Theft", "num_incidents": 2872, "cat_rank": 1}, {"PoliceDistrict": "Bayview", "IncidentCategory": "Motor Vehicle Theft", "num_incidents": 1900, "cat_rank": 2}, {"PoliceDistrict": "Bayview", "IncidentCategory": "Assault", "num_incidents": 1579, "cat_rank": 3}, {"PoliceDistrict": "Bayview", "IncidentCategory": "Recovered Vehicle", "num_incidents": 1289, "cat_rank": 4}, {"PoliceDistrict": "Bayview", "IncidentCategory": "Malicious Mischief", "num_incidents": 1275, "cat_rank": 5}, {"PoliceDistrict": "Central", "IncidentCategory": "Larceny Theft", "num_incidents": 7700, "cat_rank": 1}, {"PoliceDistrict": "Central", "IncidentCategory": "Malicious Mischief", "num_incidents": 1877, "cat_rank": 2}, {"PoliceDistrict": "Central", "IncidentCategory": "Assault", "num_incidents": 1736, "cat_rank": 3}, {"PoliceDistrict": "Central", "IncidentCategory": "Other Miscellaneous", "num_incidents": 1628, "cat_rank": 4}, {"PoliceDistrict": "Central", "IncidentCategory": "Burglary", "num_incidents": 1237, "cat_rank": 5}, {"PoliceDistrict": "Ingleside", "IncidentCategory": "Larceny Theft", "num_incidents": 3360, "cat_rank": 1}, {"PoliceDistrict": "Ingleside", "IncidentCategory": "Motor Vehicle Theft", "num_incidents": 1596, "cat_rank": 2}, {"PoliceDistrict": "Ingleside", "IncidentCategory": "Malicious Mischief", "num_incidents": 1212, "cat_rank": 3}, {"PoliceDistrict": "Ingleside", "IncidentCategory": "Assault", "num_incidents": 1193, "cat_rank": 4}, {"PoliceDistrict": "Ingleside", "IncidentCategory": "Burglary", "num_incidents": 980, "cat_rank": 5}, {"PoliceDistrict": "Mission", "IncidentCategory": "Larceny Theft", "num_incidents": 5440, "cat_rank": 1}, {"PoliceDistrict": "Mission", "IncidentCategory": "Other Miscellaneous", "num_incidents": 2564, "cat_rank": 2}, {"PoliceDistrict": "Mission", "IncidentCategory": "Assault", "num_incidents": 2489, "cat_rank": 3}, {"PoliceDistrict": "Mission", "IncidentCategory": "Drug Offense", "num_incidents": 2174, "cat_rank": 4}, {"PoliceDistrict": "Mission", "IncidentCategory": "Malicious Mischief", "num_incidents": 1816, "cat_rank": 5}, {"PoliceDistrict": "Northern", "IncidentCategory": "Larceny Theft", "num_incidents": 7690, "cat_rank": 1}, {"PoliceDistrict": "Northern", "IncidentCategory": "Malicious Mischief", "num_incidents": 1952, "cat_rank": 2}, {"PoliceDistrict": "Northern", "IncidentCategory": "Assault", "num_incidents": 1829, "cat_rank": 3}, {"PoliceDistrict": "Northern", "IncidentCategory": "Other Miscellaneous", "num_incidents": 1616, "cat_rank": 4}, {"PoliceDistrict": "Northern", "IncidentCategory": "Burglary", "num_incidents": 1560, "cat_rank": 5}, {"PoliceDistrict": "Out of SF", "IncidentCategory": "Recovered Vehicle", "num_incidents": 2995, "cat_rank": 1}, {"PoliceDistrict": "Out of SF", "IncidentCategory": "Lost Property", "num_incidents": 1048, "cat_rank": 2}, {"PoliceDistrict": "Out of SF", "IncidentCategory": "Larceny Theft", "num_incidents": 905, "cat_rank": 3}, {"PoliceDistrict": "Out of SF", "IncidentCategory": "Courtesy Report", "num_incidents": 429, "cat_rank": 4}, {"PoliceDistrict": "Out of SF", "IncidentCategory": "Other Offenses", "num_incidents": 388, "cat_rank": 5}, {"PoliceDistrict": "Park", "IncidentCategory": "Larceny Theft", "num_incidents": 2229, "cat_rank": 1}, {"PoliceDistrict": "Park", "IncidentCategory": "Burglary", "num_incidents": 673, "cat_rank": 2}, {"PoliceDistrict": "Park", "IncidentCategory": "Malicious Mischief", "num_incidents": 604, "cat_rank": 3}, {"PoliceDistrict": "Park", "IncidentCategory": "Missing Person", "num_incidents": 578, "cat_rank": 4}, {"PoliceDistrict": "Park", "IncidentCategory": "Motor Vehicle Theft", "num_incidents": 528, "cat_rank": 5}, {"PoliceDistrict": "Richmond", "IncidentCategory": "Larceny Theft", "num_incidents": 3184, "cat_rank": 1}, {"PoliceDistrict": "Richmond", "IncidentCategory": "Burglary", "num_incidents": 828, "cat_rank": 2}, {"PoliceDistrict": "Richmond", "IncidentCategory": "Malicious Mischief", "num_incidents": 731, "cat_rank": 3}, {"PoliceDistrict": "Richmond", "IncidentCategory": "Motor Vehicle Theft", "num_incidents": 562, "cat_rank": 4}, {"PoliceDistrict": "Richmond", "IncidentCategory": "Assault", "num_incidents": 508, "cat_rank": 5}, {"PoliceDistrict": "Southern", "IncidentCategory": "Larceny Theft", "num_incidents": 6501, "cat_rank": 1}, {"PoliceDistrict": "Southern", "IncidentCategory": "Other Miscellaneous", "num_incidents": 2362, "cat_rank": 2}, {"PoliceDistrict": "Southern", "IncidentCategory": "Assault", "num_incidents": 2327, "cat_rank": 3}, {"PoliceDistrict": "Southern", "IncidentCategory": "Drug Offense", "num_incidents": 2054, "cat_rank": 4}, {"PoliceDistrict": "Southern", "IncidentCategory": "Warrant", "num_incidents": 1939, "cat_rank": 5}, {"PoliceDistrict": "Taraval", "IncidentCategory": "Larceny Theft", "num_incidents": 4260, "cat_rank": 1}, {"PoliceDistrict": "Taraval", "IncidentCategory": "Malicious Mischief", "num_incidents": 1184, "cat_rank": 2}, {"PoliceDistrict": "Taraval", "IncidentCategory": "Motor Vehicle Theft", "num_incidents": 1091, "cat_rank": 3}, {"PoliceDistrict": "Taraval", "IncidentCategory": "Burglary", "num_incidents": 1026, "cat_rank": 4}, {"PoliceDistrict": "Taraval", "IncidentCategory": "Fraud", "num_incidents": 1013, "cat_rank": 5}, {"PoliceDistrict": "Tenderloin", "IncidentCategory": "Drug Offense", "num_incidents": 4568, "cat_rank": 1}, {"PoliceDistrict": "Tenderloin", "IncidentCategory": "Warrant", "num_incidents": 3418, "cat_rank": 2}, {"PoliceDistrict": "Tenderloin", "IncidentCategory": "Larceny Theft", "num_incidents": 2482, "cat_rank": 3}, {"PoliceDistrict": "Tenderloin", "IncidentCategory": "Assault", "num_incidents": 2438, "cat_rank": 4}, {"PoliceDistrict": "Tenderloin", "IncidentCategory": "Other Miscellaneous", "num_incidents": 2232, "cat_rank": 5}], "date_quality_check": [{"table_name": "sfcrime2025", "earliest_date": "2025/01/02", "latest_date": "2026/04/25", "rows_dated_2026": 26462, "total_rows": 121194}]};
+
+const COLORS = ['#3b6fa0','#dd8452','#4f9d69','#c44e52','#8172b3','#937860','#4aa9b8','#c9a227'];
+
+function fmt(n){ if(n===null||n===undefined) return '—'; return Number(n).toLocaleString(); }
+
+// Each dashboard section is independent: if one chart fails to render (e.g. no
+// network access to the Chart.js CDN), the rest of the page — including the
+// data tables below, which don't depend on Chart.js at all — still works.
+function safe(label, fn){
+  try { fn(); }
+  catch(e){ console.error('Dashboard section failed:', label, e); }
+}
+
+// ---- Tabs ----
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ---- Chart: YoY totals ----
+safe('chartYoY', () => new Chart(document.getElementById('chartYoY'), {
+  type: 'bar',
+  data: {
+    labels: DATA.yoy_totals.map(r=>r.incident_year),
+    datasets: [{ label:'Total Incidents', data: DATA.yoy_totals.map(r=>r.total_incidents),
+      backgroundColor: [COLORS[0], COLORS[2]], borderRadius:4 }]
+  },
+  options: { responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmt(c.parsed.y)+' incidents'}}},
+    scales:{ y:{beginAtZero:true, ticks:{callback:v=>fmt(v)}} } }
+}));
+
+// ---- Chart: Resolution ----
+safe('chartResolution', () => {
+  const years = [...new Set(DATA.by_resolution.map(r=>r.incident_year))].sort();
+  const resolutions = [...new Set(DATA.by_resolution.map(r=>r.Resolution))];
+  const datasets = years.map((y,i)=>({
+    label: String(y),
+    data: resolutions.map(res => {
+      const row = DATA.by_resolution.find(r=>r.incident_year===y && r.Resolution===res);
+      return row ? row.pct_of_year : 0;
+    }),
+    backgroundColor: COLORS[i]
+  }));
+  new Chart(document.getElementById('chartResolution'), {
+    type:'bar',
+    data:{ labels: resolutions, datasets },
+    options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{ tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.x+'%'}} },
+      scales:{ x:{ ticks:{callback:v=>v+'%'} } } }
+  });
+});
+
+// ---- Chart: Category (2025, top 8) ----
+safe('chartCategory', () => {
+  const rows = DATA.by_category.filter(r=>r.incident_year===2025).slice(0,8);
+  new Chart(document.getElementById('chartCategory'), {
+    type:'bar',
+    data:{ labels: rows.map(r=>r.IncidentCategory),
+      datasets:[{ label:'2025 incidents', data: rows.map(r=>r.num_crimes), backgroundColor: COLORS[0], borderRadius:4 }] },
+    options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmt(c.parsed.x)+' incidents'}}},
+      scales:{ x:{beginAtZero:true, ticks:{callback:v=>fmt(v)}} } }
+  });
+});
+
+// ---- Chart: District (2025, sorted) ----
+safe('chartDistrict', () => {
+  const rows = DATA.by_district.filter(r=>r.incident_year===2025);
+  new Chart(document.getElementById('chartDistrict'), {
+    type:'bar',
+    data:{ labels: rows.map(r=>r.PoliceDistrict),
+      datasets:[{ label:'2025 incidents', data: rows.map(r=>r.num_crimes), backgroundColor: COLORS[1], borderRadius:4 }] },
+    options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmt(c.parsed.x)+' incidents'}}},
+      scales:{ x:{beginAtZero:true, ticks:{callback:v=>fmt(v)}} } }
+  });
+});
+
+// ---- Chart: Day of week ----
+safe('chartDow', () => new Chart(document.getElementById('chartDow'), {
+  type:'line',
+  data:{ labels: DATA.by_day_of_week.map(r=>r.day_of_week),
+    datasets:[
+      { label:'2024', data: DATA.by_day_of_week.map(r=>r.incidents_2024), borderColor:COLORS[0], backgroundColor:COLORS[0]+'20', tension:.3, fill:false },
+      { label:'2025', data: DATA.by_day_of_week.map(r=>r.incidents_2025), borderColor:COLORS[2], backgroundColor:COLORS[2]+'20', tension:.3, fill:false }
+    ] },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}} },
+    scales:{ y:{beginAtZero:true, ticks:{callback:v=>fmt(v)}} } }
+}));
+
+// ---- Chart: Monthly seasonality ----
+safe('chartMonth', () => new Chart(document.getElementById('chartMonth'), {
+  type:'line',
+  data:{ labels: DATA.by_month.map(r=>r.month_name),
+    datasets:[
+      { label:'2024', data: DATA.by_month.map(r=>r.incidents_2024), borderColor:COLORS[0], backgroundColor:COLORS[0]+'20', tension:.3, fill:false },
+      { label:'2025', data: DATA.by_month.map(r=>r.incidents_2025), borderColor:COLORS[2], backgroundColor:COLORS[2]+'20', tension:.3, fill:false }
+    ] },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}} },
+    scales:{ y:{beginAtZero:true, ticks:{callback:v=>fmt(v)}} } }
+}));
+
+// ---- Table: Movers ----
+safe('tblMovers', () => {
+  const rows = [...DATA.yoy_category].filter(r=>r.incidents_2024>=100)
+    .sort((a,b)=>b.pct_change-a.pct_change);
+  const top = rows.slice(0,6), bottom = rows.slice(-6).reverse();
+  const combined = [...top, ...bottom];
+  let html = '<thead><tr><th>Category</th><th>2024</th><th>2025</th><th>Net Change</th><th>% Change</th></tr></thead><tbody>';
+  combined.forEach(r=>{
+    const cls = r.pct_change>=0 ? 'negative' : 'positive'; // more crime = red, less = green
+    html += `<tr><td>${r.category}</td><td>${fmt(r.incidents_2024)}</td><td>${fmt(r.incidents_2025)}</td><td>${fmt(r.net_change)}</td><td style="color:var(--${cls})">${r.pct_change}%</td></tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('tblMovers').innerHTML = html;
+});
+
+// ---- Table: Safety ranking ----
+safe('tblSafety', () => {
+  let html = '<thead><tr><th>Rank</th><th>District</th><th>2024</th><th>2025</th><th>Total (2yr)</th></tr></thead><tbody>';
+  DATA.safety_rank.forEach(r=>{
+    html += `<tr><td>${r.safety_rank}</td><td>${r.PoliceDistrict}</td><td>${fmt(r.incidents_2024)}</td><td>${fmt(r.incidents_2025)}</td><td>${fmt(r.total_incidents)}</td></tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('tblSafety').innerHTML = html;
+});
+</script>
+</body>
+</html>

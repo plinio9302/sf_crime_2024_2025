@@ -1,0 +1,56 @@
+PoliceDistrict,IncidentCategory,num_incidents,cat_rank
+Bayview,Larceny Theft,2872,1
+Bayview,Motor Vehicle Theft,1900,2
+Bayview,Assault,1579,3
+Bayview,Recovered Vehicle,1289,4
+Bayview,Malicious Mischief,1275,5
+Central,Larceny Theft,7700,1
+Central,Malicious Mischief,1877,2
+Central,Assault,1736,3
+Central,Other Miscellaneous,1628,4
+Central,Burglary,1237,5
+Ingleside,Larceny Theft,3360,1
+Ingleside,Motor Vehicle Theft,1596,2
+Ingleside,Malicious Mischief,1212,3
+Ingleside,Assault,1193,4
+Ingleside,Burglary,980,5
+Mission,Larceny Theft,5440,1
+Mission,Other Miscellaneous,2564,2
+Mission,Assault,2489,3
+Mission,Drug Offense,2174,4
+Mission,Malicious Mischief,1816,5
+Northern,Larceny Theft,7690,1
+Northern,Malicious Mischief,1952,2
+Northern,Assault,1829,3
+Northern,Other Miscellaneous,1616,4
+Northern,Burglary,1560,5
+Out of SF,Recovered Vehicle,2995,1
+Out of SF,Lost Property,1048,2
+Out of SF,Larceny Theft,905,3
+Out of SF,Courtesy Report,429,4
+Out of SF,Other Offenses,388,5
+Park,Larceny Theft,2229,1
+Park,Burglary,673,2
+Park,Malicious Mischief,604,3
+Park,Missing Person,578,4
+Park,Motor Vehicle Theft,528,5
+Richmond,Larceny Theft,3184,1
+Richmond,Burglary,828,2
+Richmond,Malicious Mischief,731,3
+Richmond,Motor Vehicle Theft,562,4
+Richmond,Assault,508,5
+Southern,Larceny Theft,6501,1
+Southern,Other Miscellaneous,2362,2
+Southern,Assault,2327,3
+Southern,Drug Offense,2054,4
+Southern,Warrant,1939,5
+Taraval,Larceny Theft,4260,1
+Taraval,Malicious Mischief,1184,2
+Taraval,Motor Vehicle Theft,1091,3
+Taraval,Burglary,1026,4
+Taraval,Fraud,1013,5
+Tenderloin,Drug Offense,4568,1
+Tenderloin,Warrant,3418,2
+Tenderloin,Larceny Theft,2482,3
+Tenderloin,Assault,2438,4
+Tenderloin,Other Miscellaneous,2232,5

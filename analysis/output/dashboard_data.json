@@ -1,0 +1,1647 @@
+{
+  "generated_from": {
+    "rows_2024": 109626,
+    "rows_2025_raw": 121194
+  },
+  "yoy_totals": [
+    {
+      "incident_year": 2024,
+      "total_incidents": 109342
+    },
+    {
+      "incident_year": 2025,
+      "total_incidents": 94280
+    }
+  ],
+  "yoy_category": [
+    {
+      "category": "Civil Sidewalks",
+      "incidents_2024": 1,
+      "incidents_2025": 73,
+      "net_change": 72,
+      "pct_change": 7200.0
+    },
+    {
+      "category": "Human Trafficking (A), Commercial Sex Acts",
+      "incidents_2024": 2,
+      "incidents_2025": 7,
+      "net_change": 5,
+      "pct_change": 250.0
+    },
+    {
+      "category": "Motor Vehicle Theft?",
+      "incidents_2024": 6,
+      "incidents_2025": 11,
+      "net_change": 5,
+      "pct_change": 83.33
+    },
+    {
+      "category": "Drug Offense",
+      "incidents_2024": 4122,
+      "incidents_2025": 6684,
+      "net_change": 2562,
+      "pct_change": 62.15
+    },
+    {
+      "category": "Weapons Offence",
+      "incidents_2024": 2,
+      "incidents_2025": 3,
+      "net_change": 1,
+      "pct_change": 50.0
+    },
+    {
+      "category": "Warrant",
+      "incidents_2024": 4534,
+      "incidents_2025": 5617,
+      "net_change": 1083,
+      "pct_change": 23.89
+    },
+    {
+      "category": "Forgery And Counterfeiting",
+      "incidents_2024": 460,
+      "incidents_2025": 538,
+      "net_change": 78,
+      "pct_change": 16.96
+    },
+    {
+      "category": "Homicide",
+      "incidents_2024": 42,
+      "incidents_2025": 47,
+      "net_change": 5,
+      "pct_change": 11.9
+    },
+    {
+      "category": "Vehicle Impounded",
+      "incidents_2024": 133,
+      "incidents_2025": 147,
+      "net_change": 14,
+      "pct_change": 10.53
+    },
+    {
+      "category": "Vehicle Misplaced",
+      "incidents_2024": 47,
+      "incidents_2025": 51,
+      "net_change": 4,
+      "pct_change": 8.51
+    },
+    {
+      "category": "Gambling",
+      "incidents_2024": 14,
+      "incidents_2025": 15,
+      "net_change": 1,
+      "pct_change": 7.14
+    },
+    {
+      "category": "Suicide",
+      "incidents_2024": 54,
+      "incidents_2025": 57,
+      "net_change": 3,
+      "pct_change": 5.56
+    },
+    {
+      "category": "Fire Report",
+      "incidents_2024": 162,
+      "incidents_2025": 169,
+      "net_change": 7,
+      "pct_change": 4.32
+    },
+    {
+      "category": "Offences Against The Family And Children",
+      "incidents_2024": 1569,
+      "incidents_2025": 1620,
+      "net_change": 51,
+      "pct_change": 3.25
+    },
+    {
+      "category": "Fraud",
+      "incidents_2024": 3376,
+      "incidents_2025": 3468,
+      "net_change": 92,
+      "pct_change": 2.73
+    },
+    {
+      "category": "Lost Property",
+      "incidents_2024": 3398,
+      "incidents_2025": 3485,
+      "net_change": 87,
+      "pct_change": 2.56
+    },
+    {
+      "category": "Drug Violation",
+      "incidents_2024": 37,
+      "incidents_2025": 37,
+      "net_change": 0,
+      "pct_change": 0.0
+    },
+    {
+      "category": "Prostitution",
+      "incidents_2024": 98,
+      "incidents_2025": 97,
+      "net_change": -1,
+      "pct_change": -1.02
+    },
+    {
+      "category": "Miscellaneous Investigation",
+      "incidents_2024": 1926,
+      "incidents_2025": 1900,
+      "net_change": -26,
+      "pct_change": -1.35
+    },
+    {
+      "category": "Arson",
+      "incidents_2024": 311,
+      "incidents_2025": 306,
+      "net_change": -5,
+      "pct_change": -1.61
+    },
+    {
+      "category": "Disorderly Conduct",
+      "incidents_2024": 2521,
+      "incidents_2025": 2458,
+      "net_change": -63,
+      "pct_change": -2.5
+    },
+    {
+      "category": "Non-Criminal",
+      "incidents_2024": 3926,
+      "incidents_2025": 3750,
+      "net_change": -176,
+      "pct_change": -4.48
+    },
+    {
+      "category": "Weapons Carrying Etc",
+      "incidents_2024": 743,
+      "incidents_2025": 699,
+      "net_change": -44,
+      "pct_change": -5.92
+    },
+    {
+      "category": "Courtesy Report",
+      "incidents_2024": 365,
+      "incidents_2025": 339,
+      "net_change": -26,
+      "pct_change": -7.12
+    },
+    {
+      "category": "Missing Person",
+      "incidents_2024": 2584,
+      "incidents_2025": 2384,
+      "net_change": -200,
+      "pct_change": -7.74
+    },
+    {
+      "category": "Suspicious",
+      "incidents_2024": 11,
+      "incidents_2025": 10,
+      "net_change": -1,
+      "pct_change": -9.09
+    },
+    {
+      "category": "Suspicious Occ",
+      "incidents_2024": 2385,
+      "incidents_2025": 2130,
+      "net_change": -255,
+      "pct_change": -10.69
+    },
+    {
+      "category": "Other",
+      "incidents_2024": 1020,
+      "incidents_2025": 898,
+      "net_change": -122,
+      "pct_change": -11.96
+    },
+    {
+      "category": "Assault",
+      "incidents_2024": 8225,
+      "incidents_2025": 7199,
+      "net_change": -1026,
+      "pct_change": -12.47
+    },
+    {
+      "category": "Traffic Violation Arrest",
+      "incidents_2024": 927,
+      "incidents_2025": 801,
+      "net_change": -126,
+      "pct_change": -13.59
+    },
+    {
+      "category": "Case Closure",
+      "incidents_2024": 482,
+      "incidents_2025": 408,
+      "net_change": -74,
+      "pct_change": -15.35
+    },
+    {
+      "category": "Other Miscellaneous",
+      "incidents_2024": 7789,
+      "incidents_2025": 6505,
+      "net_change": -1284,
+      "pct_change": -16.48
+    },
+    {
+      "category": "Traffic Collision",
+      "incidents_2024": 396,
+      "incidents_2025": 328,
+      "net_change": -68,
+      "pct_change": -17.17
+    },
+    {
+      "category": "Embezzlement",
+      "incidents_2024": 112,
+      "incidents_2025": 92,
+      "net_change": -20,
+      "pct_change": -17.86
+    },
+    {
+      "category": "Weapons Offense",
+      "incidents_2024": 919,
+      "incidents_2025": 754,
+      "net_change": -165,
+      "pct_change": -17.95
+    },
+    {
+      "category": "Stolen Property",
+      "incidents_2024": 550,
+      "incidents_2025": 451,
+      "net_change": -99,
+      "pct_change": -18.0
+    },
+    {
+      "category": "Other Offenses",
+      "incidents_2024": 958,
+      "incidents_2025": 781,
+      "net_change": -177,
+      "pct_change": -18.48
+    },
+    {
+      "category": "Malicious Mischief",
+      "incidents_2024": 7495,
+      "incidents_2025": 6059,
+      "net_change": -1436,
+      "pct_change": -19.16
+    },
+    {
+      "category": "Larceny Theft",
+      "incidents_2024": 26318,
+      "incidents_2025": 20305,
+      "net_change": -6013,
+      "pct_change": -22.85
+    },
+    {
+      "category": "Robbery",
+      "incidents_2024": 2408,
+      "incidents_2025": 1851,
+      "net_change": -557,
+      "pct_change": -23.13
+    },
+    {
+      "category": "Burglary",
+      "incidents_2024": 6212,
+      "incidents_2025": 4546,
+      "net_change": -1666,
+      "pct_change": -26.82
+    },
+    {
+      "category": "Recovered Vehicle",
+      "incidents_2024": 4924,
+      "incidents_2025": 2836,
+      "net_change": -2088,
+      "pct_change": -42.4
+    },
+    {
+      "category": "Motor Vehicle Theft",
+      "incidents_2024": 7226,
+      "incidents_2025": 4114,
+      "net_change": -3112,
+      "pct_change": -43.07
+    },
+    {
+      "category": "Rape",
+      "incidents_2024": 35,
+      "incidents_2025": 19,
+      "net_change": -16,
+      "pct_change": -45.71
+    },
+    {
+      "category": "Vandalism",
+      "incidents_2024": 324,
+      "incidents_2025": 164,
+      "net_change": -160,
+      "pct_change": -49.38
+    },
+    {
+      "category": "Sex Offense",
+      "incidents_2024": 162,
+      "incidents_2025": 56,
+      "net_change": -106,
+      "pct_change": -65.43
+    },
+    {
+      "category": "Liquor Laws",
+      "incidents_2024": 30,
+      "incidents_2025": 9,
+      "net_change": -21,
+      "pct_change": -70.0
+    }
+  ],
+  "by_category": [
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Larceny Theft",
+      "num_crimes": 26318,
+      "pct_of_year": 24.07
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Assault",
+      "num_crimes": 8225,
+      "pct_of_year": 7.52
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Other Miscellaneous",
+      "num_crimes": 7789,
+      "pct_of_year": 7.12
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Malicious Mischief",
+      "num_crimes": 7495,
+      "pct_of_year": 6.85
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Motor Vehicle Theft",
+      "num_crimes": 7226,
+      "pct_of_year": 6.61
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Burglary",
+      "num_crimes": 6212,
+      "pct_of_year": 5.68
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Recovered Vehicle",
+      "num_crimes": 4924,
+      "pct_of_year": 4.5
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Warrant",
+      "num_crimes": 4534,
+      "pct_of_year": 4.15
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Drug Offense",
+      "num_crimes": 4122,
+      "pct_of_year": 3.77
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Non-Criminal",
+      "num_crimes": 3926,
+      "pct_of_year": 3.59
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Lost Property",
+      "num_crimes": 3398,
+      "pct_of_year": 3.11
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Fraud",
+      "num_crimes": 3376,
+      "pct_of_year": 3.09
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Missing Person",
+      "num_crimes": 2584,
+      "pct_of_year": 2.36
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Disorderly Conduct",
+      "num_crimes": 2521,
+      "pct_of_year": 2.31
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Robbery",
+      "num_crimes": 2408,
+      "pct_of_year": 2.2
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Suspicious Occ",
+      "num_crimes": 2385,
+      "pct_of_year": 2.18
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Miscellaneous Investigation",
+      "num_crimes": 1926,
+      "pct_of_year": 1.76
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Offences Against The Family And Children",
+      "num_crimes": 1569,
+      "pct_of_year": 1.43
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Other",
+      "num_crimes": 1020,
+      "pct_of_year": 0.93
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Other Offenses",
+      "num_crimes": 958,
+      "pct_of_year": 0.88
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Traffic Violation Arrest",
+      "num_crimes": 927,
+      "pct_of_year": 0.85
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Weapons Offense",
+      "num_crimes": 919,
+      "pct_of_year": 0.84
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Weapons Carrying Etc",
+      "num_crimes": 743,
+      "pct_of_year": 0.68
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Stolen Property",
+      "num_crimes": 550,
+      "pct_of_year": 0.5
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Case Closure",
+      "num_crimes": 482,
+      "pct_of_year": 0.44
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Forgery And Counterfeiting",
+      "num_crimes": 460,
+      "pct_of_year": 0.42
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Traffic Collision",
+      "num_crimes": 396,
+      "pct_of_year": 0.36
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Courtesy Report",
+      "num_crimes": 365,
+      "pct_of_year": 0.33
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Vandalism",
+      "num_crimes": 324,
+      "pct_of_year": 0.3
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Arson",
+      "num_crimes": 311,
+      "pct_of_year": 0.28
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Fire Report",
+      "num_crimes": 162,
+      "pct_of_year": 0.15
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Sex Offense",
+      "num_crimes": 162,
+      "pct_of_year": 0.15
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Vehicle Impounded",
+      "num_crimes": 133,
+      "pct_of_year": 0.12
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Embezzlement",
+      "num_crimes": 112,
+      "pct_of_year": 0.1
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Prostitution",
+      "num_crimes": 98,
+      "pct_of_year": 0.09
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Suicide",
+      "num_crimes": 54,
+      "pct_of_year": 0.05
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Vehicle Misplaced",
+      "num_crimes": 47,
+      "pct_of_year": 0.04
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Homicide",
+      "num_crimes": 42,
+      "pct_of_year": 0.04
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Drug Violation",
+      "num_crimes": 37,
+      "pct_of_year": 0.03
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Rape",
+      "num_crimes": 35,
+      "pct_of_year": 0.03
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Liquor Laws",
+      "num_crimes": 30,
+      "pct_of_year": 0.03
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Gambling",
+      "num_crimes": 14,
+      "pct_of_year": 0.01
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Suspicious",
+      "num_crimes": 11,
+      "pct_of_year": 0.01
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Motor Vehicle Theft?",
+      "num_crimes": 6,
+      "pct_of_year": 0.01
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Human Trafficking (A), Commercial Sex Acts",
+      "num_crimes": 2,
+      "pct_of_year": 0.0
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Weapons Offence",
+      "num_crimes": 2,
+      "pct_of_year": 0.0
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Civil Sidewalks",
+      "num_crimes": 1,
+      "pct_of_year": 0.0
+    },
+    {
+      "incident_year": 2024,
+      "IncidentCategory": "Human Trafficking (B), Involuntary Servitude",
+      "num_crimes": 1,
+      "pct_of_year": 0.0
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Larceny Theft",
+      "num_crimes": 20305,
+      "pct_of_year": 21.54
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Assault",
+      "num_crimes": 7199,
+      "pct_of_year": 7.64
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Drug Offense",
+      "num_crimes": 6684,
+      "pct_of_year": 7.09
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Other Miscellaneous",
+      "num_crimes": 6505,
+      "pct_of_year": 6.9
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Malicious Mischief",
+      "num_crimes": 6059,
+      "pct_of_year": 6.43
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Warrant",
+      "num_crimes": 5617,
+      "pct_of_year": 5.96
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Burglary",
+      "num_crimes": 4546,
+      "pct_of_year": 4.82
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Motor Vehicle Theft",
+      "num_crimes": 4114,
+      "pct_of_year": 4.36
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Non-Criminal",
+      "num_crimes": 3750,
+      "pct_of_year": 3.98
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Lost Property",
+      "num_crimes": 3485,
+      "pct_of_year": 3.7
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Fraud",
+      "num_crimes": 3468,
+      "pct_of_year": 3.68
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Recovered Vehicle",
+      "num_crimes": 2836,
+      "pct_of_year": 3.01
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Disorderly Conduct",
+      "num_crimes": 2458,
+      "pct_of_year": 2.61
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Missing Person",
+      "num_crimes": 2384,
+      "pct_of_year": 2.53
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Suspicious Occ",
+      "num_crimes": 2130,
+      "pct_of_year": 2.26
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Miscellaneous Investigation",
+      "num_crimes": 1900,
+      "pct_of_year": 2.02
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Robbery",
+      "num_crimes": 1851,
+      "pct_of_year": 1.96
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Offences Against The Family And Children",
+      "num_crimes": 1620,
+      "pct_of_year": 1.72
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Other",
+      "num_crimes": 898,
+      "pct_of_year": 0.95
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Traffic Violation Arrest",
+      "num_crimes": 801,
+      "pct_of_year": 0.85
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Other Offenses",
+      "num_crimes": 781,
+      "pct_of_year": 0.83
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Weapons Offense",
+      "num_crimes": 754,
+      "pct_of_year": 0.8
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Weapons Carrying Etc",
+      "num_crimes": 699,
+      "pct_of_year": 0.74
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Forgery And Counterfeiting",
+      "num_crimes": 538,
+      "pct_of_year": 0.57
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Stolen Property",
+      "num_crimes": 451,
+      "pct_of_year": 0.48
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Case Closure",
+      "num_crimes": 408,
+      "pct_of_year": 0.43
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Courtesy Report",
+      "num_crimes": 339,
+      "pct_of_year": 0.36
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Traffic Collision",
+      "num_crimes": 328,
+      "pct_of_year": 0.35
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Arson",
+      "num_crimes": 306,
+      "pct_of_year": 0.32
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Fire Report",
+      "num_crimes": 169,
+      "pct_of_year": 0.18
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Vandalism",
+      "num_crimes": 164,
+      "pct_of_year": 0.17
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Vehicle Impounded",
+      "num_crimes": 147,
+      "pct_of_year": 0.16
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Prostitution",
+      "num_crimes": 97,
+      "pct_of_year": 0.1
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Embezzlement",
+      "num_crimes": 92,
+      "pct_of_year": 0.1
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Civil Sidewalks",
+      "num_crimes": 73,
+      "pct_of_year": 0.08
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Suicide",
+      "num_crimes": 57,
+      "pct_of_year": 0.06
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Sex Offense",
+      "num_crimes": 56,
+      "pct_of_year": 0.06
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Vehicle Misplaced",
+      "num_crimes": 51,
+      "pct_of_year": 0.05
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Homicide",
+      "num_crimes": 47,
+      "pct_of_year": 0.05
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Drug Violation",
+      "num_crimes": 37,
+      "pct_of_year": 0.04
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Rape",
+      "num_crimes": 19,
+      "pct_of_year": 0.02
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Gambling",
+      "num_crimes": 15,
+      "pct_of_year": 0.02
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Motor Vehicle Theft?",
+      "num_crimes": 11,
+      "pct_of_year": 0.01
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Suspicious",
+      "num_crimes": 10,
+      "pct_of_year": 0.01
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Liquor Laws",
+      "num_crimes": 9,
+      "pct_of_year": 0.01
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Human Trafficking (A), Commercial Sex Acts",
+      "num_crimes": 7,
+      "pct_of_year": 0.01
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Weapons Offence",
+      "num_crimes": 3,
+      "pct_of_year": 0.0
+    },
+    {
+      "incident_year": 2025,
+      "IncidentCategory": "Human Trafficking, Commercial Sex Acts",
+      "num_crimes": 2,
+      "pct_of_year": 0.0
+    }
+  ],
+  "by_district": [
+    {
+      "incident_year": 2024,
+      "PoliceDistrict": "Mission",
+      "num_crimes": 14195,
+      "pct_of_year": 12.98
+    },
+    {
+      "incident_year": 2024,
+      "PoliceDistrict": "Southern",
+      "num_crimes": 13911,
+      "pct_of_year": 12.72
+    },
+    {
+      "incident_year": 2024,
+      "PoliceDistrict": "Central",
+      "num_crimes": 13689,
+      "pct_of_year": 12.52
+    },
+    {
+      "incident_year": 2024,
+      "PoliceDistrict": "Northern",
+      "num_crimes": 13329,
+      "pct_of_year": 12.19
+    },
+    {
+      "incident_year": 2024,
+      "PoliceDistrict": "Tenderloin",
+      "num_crimes": 13320,
+      "pct_of_year": 12.18
+    },
+    {
+      "incident_year": 2024,
+      "PoliceDistrict": "Bayview",
+      "num_crimes": 9669,
+      "pct_of_year": 8.84
+    },
+    {
+      "incident_year": 2024,
+      "PoliceDistrict": "Ingleside",
+      "num_crimes": 9004,
+      "pct_of_year": 8.23
+    },
+    {
+      "incident_year": 2024,
+      "PoliceDistrict": "Taraval",
+      "num_crimes": 7957,
+      "pct_of_year": 7.28
+    },
+    {
+      "incident_year": 2024,
+      "PoliceDistrict": "Richmond",
+      "num_crimes": 5488,
+      "pct_of_year": 5.02
+    },
+    {
+      "incident_year": 2024,
+      "PoliceDistrict": "Out of SF",
+      "num_crimes": 4463,
+      "pct_of_year": 4.08
+    },
+    {
+      "incident_year": 2024,
+      "PoliceDistrict": "Park",
+      "num_crimes": 4317,
+      "pct_of_year": 3.95
+    },
+    {
+      "incident_year": 2025,
+      "PoliceDistrict": "Southern",
+      "num_crimes": 14841,
+      "pct_of_year": 15.74
+    },
+    {
+      "incident_year": 2025,
+      "PoliceDistrict": "Mission",
+      "num_crimes": 13480,
+      "pct_of_year": 14.3
+    },
+    {
+      "incident_year": 2025,
+      "PoliceDistrict": "Tenderloin",
+      "num_crimes": 12388,
+      "pct_of_year": 13.14
+    },
+    {
+      "incident_year": 2025,
+      "PoliceDistrict": "Northern",
+      "num_crimes": 11019,
+      "pct_of_year": 11.69
+    },
+    {
+      "incident_year": 2025,
+      "PoliceDistrict": "Central",
+      "num_crimes": 10340,
+      "pct_of_year": 10.97
+    },
+    {
+      "incident_year": 2025,
+      "PoliceDistrict": "Bayview",
+      "num_crimes": 8190,
+      "pct_of_year": 8.69
+    },
+    {
+      "incident_year": 2025,
+      "PoliceDistrict": "Taraval",
+      "num_crimes": 6643,
+      "pct_of_year": 7.05
+    },
+    {
+      "incident_year": 2025,
+      "PoliceDistrict": "Ingleside",
+      "num_crimes": 6491,
+      "pct_of_year": 6.88
+    },
+    {
+      "incident_year": 2025,
+      "PoliceDistrict": "Richmond",
+      "num_crimes": 4090,
+      "pct_of_year": 4.34
+    },
+    {
+      "incident_year": 2025,
+      "PoliceDistrict": "Park",
+      "num_crimes": 3632,
+      "pct_of_year": 3.85
+    },
+    {
+      "incident_year": 2025,
+      "PoliceDistrict": "Out of SF",
+      "num_crimes": 3166,
+      "pct_of_year": 3.36
+    }
+  ],
+  "by_resolution": [
+    {
+      "incident_year": 2024,
+      "Resolution": "Open or Active",
+      "num_cases": 82769,
+      "pct_of_year": 75.7
+    },
+    {
+      "incident_year": 2024,
+      "Resolution": "Cite or Arrest Adult",
+      "num_cases": 25823,
+      "pct_of_year": 23.62
+    },
+    {
+      "incident_year": 2024,
+      "Resolution": "Unfounded",
+      "num_cases": 385,
+      "pct_of_year": 0.35
+    },
+    {
+      "incident_year": 2024,
+      "Resolution": "Exceptional Adult",
+      "num_cases": 365,
+      "pct_of_year": 0.33
+    },
+    {
+      "incident_year": 2025,
+      "Resolution": "Open or Active",
+      "num_cases": 64952,
+      "pct_of_year": 68.89
+    },
+    {
+      "incident_year": 2025,
+      "Resolution": "Cite or Arrest Adult",
+      "num_cases": 28661,
+      "pct_of_year": 30.4
+    },
+    {
+      "incident_year": 2025,
+      "Resolution": "Unfounded",
+      "num_cases": 387,
+      "pct_of_year": 0.41
+    },
+    {
+      "incident_year": 2025,
+      "Resolution": "Exceptional Adult",
+      "num_cases": 280,
+      "pct_of_year": 0.3
+    }
+  ],
+  "by_day_of_week": [
+    {
+      "day_of_week": "Sunday",
+      "total_incidents": 26058,
+      "incidents_2024": 14190,
+      "incidents_2025": 11868
+    },
+    {
+      "day_of_week": "Monday",
+      "total_incidents": 28255,
+      "incidents_2024": 15288,
+      "incidents_2025": 12967
+    },
+    {
+      "day_of_week": "Tuesday",
+      "total_incidents": 29936,
+      "incidents_2024": 16314,
+      "incidents_2025": 13622
+    },
+    {
+      "day_of_week": "Wednesday",
+      "total_incidents": 31120,
+      "incidents_2024": 16468,
+      "incidents_2025": 14652
+    },
+    {
+      "day_of_week": "Thursday",
+      "total_incidents": 29937,
+      "incidents_2024": 15857,
+      "incidents_2025": 14080
+    },
+    {
+      "day_of_week": "Friday",
+      "total_incidents": 30955,
+      "incidents_2024": 16530,
+      "incidents_2025": 14425
+    },
+    {
+      "day_of_week": "Saturday",
+      "total_incidents": 27361,
+      "incidents_2024": 14695,
+      "incidents_2025": 12666
+    }
+  ],
+  "by_month": [
+    {
+      "incident_month": 1,
+      "incidents_2024": 9248,
+      "incidents_2025": 8006,
+      "month_name": "Jan"
+    },
+    {
+      "incident_month": 2,
+      "incidents_2024": 9395,
+      "incidents_2025": 7721,
+      "month_name": "Feb"
+    },
+    {
+      "incident_month": 3,
+      "incidents_2024": 9469,
+      "incidents_2025": 8261,
+      "month_name": "Mar"
+    },
+    {
+      "incident_month": 4,
+      "incidents_2024": 9218,
+      "incidents_2025": 7725,
+      "month_name": "Apr"
+    },
+    {
+      "incident_month": 5,
+      "incidents_2024": 9279,
+      "incidents_2025": 8112,
+      "month_name": "May"
+    },
+    {
+      "incident_month": 6,
+      "incidents_2024": 9103,
+      "incidents_2025": 7386,
+      "month_name": "Jun"
+    },
+    {
+      "incident_month": 7,
+      "incidents_2024": 9769,
+      "incidents_2025": 7903,
+      "month_name": "Jul"
+    },
+    {
+      "incident_month": 8,
+      "incidents_2024": 9494,
+      "incidents_2025": 8134,
+      "month_name": "Aug"
+    },
+    {
+      "incident_month": 9,
+      "incidents_2024": 9116,
+      "incidents_2025": 7761,
+      "month_name": "Sep"
+    },
+    {
+      "incident_month": 10,
+      "incidents_2024": 9190,
+      "incidents_2025": 8124,
+      "month_name": "Oct"
+    },
+    {
+      "incident_month": 11,
+      "incidents_2024": 8000,
+      "incidents_2025": 7734,
+      "month_name": "Nov"
+    },
+    {
+      "incident_month": 12,
+      "incidents_2024": 8061,
+      "incidents_2025": 7413,
+      "month_name": "Dec"
+    }
+  ],
+  "safety_rank": [
+    {
+      "PoliceDistrict": "Out of SF",
+      "incidents_2024": 4463,
+      "incidents_2025": 3166,
+      "total_incidents": 7629,
+      "safety_rank": 1
+    },
+    {
+      "PoliceDistrict": "Park",
+      "incidents_2024": 4317,
+      "incidents_2025": 3632,
+      "total_incidents": 7949,
+      "safety_rank": 2
+    },
+    {
+      "PoliceDistrict": "Richmond",
+      "incidents_2024": 5488,
+      "incidents_2025": 4090,
+      "total_incidents": 9578,
+      "safety_rank": 3
+    },
+    {
+      "PoliceDistrict": "Taraval",
+      "incidents_2024": 7957,
+      "incidents_2025": 6643,
+      "total_incidents": 14600,
+      "safety_rank": 4
+    },
+    {
+      "PoliceDistrict": "Ingleside",
+      "incidents_2024": 9004,
+      "incidents_2025": 6491,
+      "total_incidents": 15495,
+      "safety_rank": 5
+    },
+    {
+      "PoliceDistrict": "Bayview",
+      "incidents_2024": 9669,
+      "incidents_2025": 8190,
+      "total_incidents": 17859,
+      "safety_rank": 6
+    },
+    {
+      "PoliceDistrict": "Central",
+      "incidents_2024": 13689,
+      "incidents_2025": 10340,
+      "total_incidents": 24029,
+      "safety_rank": 7
+    },
+    {
+      "PoliceDistrict": "Northern",
+      "incidents_2024": 13329,
+      "incidents_2025": 11019,
+      "total_incidents": 24348,
+      "safety_rank": 8
+    },
+    {
+      "PoliceDistrict": "Tenderloin",
+      "incidents_2024": 13320,
+      "incidents_2025": 12388,
+      "total_incidents": 25708,
+      "safety_rank": 9
+    },
+    {
+      "PoliceDistrict": "Mission",
+      "incidents_2024": 14195,
+      "incidents_2025": 13480,
+      "total_incidents": 27675,
+      "safety_rank": 10
+    },
+    {
+      "PoliceDistrict": "Southern",
+      "incidents_2024": 13911,
+      "incidents_2025": 14841,
+      "total_incidents": 28752,
+      "safety_rank": 11
+    }
+  ],
+  "top_category_per_district": [
+    {
+      "PoliceDistrict": "Bayview",
+      "IncidentCategory": "Larceny Theft",
+      "num_incidents": 2872,
+      "cat_rank": 1
+    },
+    {
+      "PoliceDistrict": "Bayview",
+      "IncidentCategory": "Motor Vehicle Theft",
+      "num_incidents": 1900,
+      "cat_rank": 2
+    },
+    {
+      "PoliceDistrict": "Bayview",
+      "IncidentCategory": "Assault",
+      "num_incidents": 1579,
+      "cat_rank": 3
+    },
+    {
+      "PoliceDistrict": "Bayview",
+      "IncidentCategory": "Recovered Vehicle",
+      "num_incidents": 1289,
+      "cat_rank": 4
+    },
+    {
+      "PoliceDistrict": "Bayview",
+      "IncidentCategory": "Malicious Mischief",
+      "num_incidents": 1275,
+      "cat_rank": 5
+    },
+    {
+      "PoliceDistrict": "Central",
+      "IncidentCategory": "Larceny Theft",
+      "num_incidents": 7700,
+      "cat_rank": 1
+    },
+    {
+      "PoliceDistrict": "Central",
+      "IncidentCategory": "Malicious Mischief",
+      "num_incidents": 1877,
+      "cat_rank": 2
+    },
+    {
+      "PoliceDistrict": "Central",
+      "IncidentCategory": "Assault",
+      "num_incidents": 1736,
+      "cat_rank": 3
+    },
+    {
+      "PoliceDistrict": "Central",
+      "IncidentCategory": "Other Miscellaneous",
+      "num_incidents": 1628,
+      "cat_rank": 4
+    },
+    {
+      "PoliceDistrict": "Central",
+      "IncidentCategory": "Burglary",
+      "num_incidents": 1237,
+      "cat_rank": 5
+    },
+    {
+      "PoliceDistrict": "Ingleside",
+      "IncidentCategory": "Larceny Theft",
+      "num_incidents": 3360,
+      "cat_rank": 1
+    },
+    {
+      "PoliceDistrict": "Ingleside",
+      "IncidentCategory": "Motor Vehicle Theft",
+      "num_incidents": 1596,
+      "cat_rank": 2
+    },
+    {
+      "PoliceDistrict": "Ingleside",
+      "IncidentCategory": "Malicious Mischief",
+      "num_incidents": 1212,
+      "cat_rank": 3
+    },
+    {
+      "PoliceDistrict": "Ingleside",
+      "IncidentCategory": "Assault",
+      "num_incidents": 1193,
+      "cat_rank": 4
+    },
+    {
+      "PoliceDistrict": "Ingleside",
+      "IncidentCategory": "Burglary",
+      "num_incidents": 980,
+      "cat_rank": 5
+    },
+    {
+      "PoliceDistrict": "Mission",
+      "IncidentCategory": "Larceny Theft",
+      "num_incidents": 5440,
+      "cat_rank": 1
+    },
+    {
+      "PoliceDistrict": "Mission",
+      "IncidentCategory": "Other Miscellaneous",
+      "num_incidents": 2564,
+      "cat_rank": 2
+    },
+    {
+      "PoliceDistrict": "Mission",
+      "IncidentCategory": "Assault",
+      "num_incidents": 2489,
+      "cat_rank": 3
+    },
+    {
+      "PoliceDistrict": "Mission",
+      "IncidentCategory": "Drug Offense",
+      "num_incidents": 2174,
+      "cat_rank": 4
+    },
+    {
+      "PoliceDistrict": "Mission",
+      "IncidentCategory": "Malicious Mischief",
+      "num_incidents": 1816,
+      "cat_rank": 5
+    },
+    {
+      "PoliceDistrict": "Northern",
+      "IncidentCategory": "Larceny Theft",
+      "num_incidents": 7690,
+      "cat_rank": 1
+    },
+    {
+      "PoliceDistrict": "Northern",
+      "IncidentCategory": "Malicious Mischief",
+      "num_incidents": 1952,
+      "cat_rank": 2
+    },
+    {
+      "PoliceDistrict": "Northern",
+      "IncidentCategory": "Assault",
+      "num_incidents": 1829,
+      "cat_rank": 3
+    },
+    {
+      "PoliceDistrict": "Northern",
+      "IncidentCategory": "Other Miscellaneous",
+      "num_incidents": 1616,
+      "cat_rank": 4
+    },
+    {
+      "PoliceDistrict": "Northern",
+      "IncidentCategory": "Burglary",
+      "num_incidents": 1560,
+      "cat_rank": 5
+    },
+    {
+      "PoliceDistrict": "Out of SF",
+      "IncidentCategory": "Recovered Vehicle",
+      "num_incidents": 2995,
+      "cat_rank": 1
+    },
+    {
+      "PoliceDistrict": "Out of SF",
+      "IncidentCategory": "Lost Property",
+      "num_incidents": 1048,
+      "cat_rank": 2
+    },
+    {
+      "PoliceDistrict": "Out of SF",
+      "IncidentCategory": "Larceny Theft",
+      "num_incidents": 905,
+      "cat_rank": 3
+    },
+    {
+      "PoliceDistrict": "Out of SF",
+      "IncidentCategory": "Courtesy Report",
+      "num_incidents": 429,
+      "cat_rank": 4
+    },
+    {
+      "PoliceDistrict": "Out of SF",
+      "IncidentCategory": "Other Offenses",
+      "num_incidents": 388,
+      "cat_rank": 5
+    },
+    {
+      "PoliceDistrict": "Park",
+      "IncidentCategory": "Larceny Theft",
+      "num_incidents": 2229,
+      "cat_rank": 1
+    },
+    {
+      "PoliceDistrict": "Park",
+      "IncidentCategory": "Burglary",
+      "num_incidents": 673,
+      "cat_rank": 2
+    },
+    {
+      "PoliceDistrict": "Park",
+      "IncidentCategory": "Malicious Mischief",
+      "num_incidents": 604,
+      "cat_rank": 3
+    },
+    {
+      "PoliceDistrict": "Park",
+      "IncidentCategory": "Missing Person",
+      "num_incidents": 578,
+      "cat_rank": 4
+    },
+    {
+      "PoliceDistrict": "Park",
+      "IncidentCategory": "Motor Vehicle Theft",
+      "num_incidents": 528,
+      "cat_rank": 5
+    },
+    {
+      "PoliceDistrict": "Richmond",
+      "IncidentCategory": "Larceny Theft",
+      "num_incidents": 3184,
+      "cat_rank": 1
+    },
+    {
+      "PoliceDistrict": "Richmond",
+      "IncidentCategory": "Burglary",
+      "num_incidents": 828,
+      "cat_rank": 2
+    },
+    {
+      "PoliceDistrict": "Richmond",
+      "IncidentCategory": "Malicious Mischief",
+      "num_incidents": 731,
+      "cat_rank": 3
+    },
+    {
+      "PoliceDistrict": "Richmond",
+      "IncidentCategory": "Motor Vehicle Theft",
+      "num_incidents": 562,
+      "cat_rank": 4
+    },
+    {
+      "PoliceDistrict": "Richmond",
+      "IncidentCategory": "Assault",
+      "num_incidents": 508,
+      "cat_rank": 5
+    },
+    {
+      "PoliceDistrict": "Southern",
+      "IncidentCategory": "Larceny Theft",
+      "num_incidents": 6501,
+      "cat_rank": 1
+    },
+    {
+      "PoliceDistrict": "Southern",
+      "IncidentCategory": "Other Miscellaneous",
+      "num_incidents": 2362,
+      "cat_rank": 2
+    },
+    {
+      "PoliceDistrict": "Southern",
+      "IncidentCategory": "Assault",
+      "num_incidents": 2327,
+      "cat_rank": 3
+    },
+    {
+      "PoliceDistrict": "Southern",
+      "IncidentCategory": "Drug Offense",
+      "num_incidents": 2054,
+      "cat_rank": 4
+    },
+    {
+      "PoliceDistrict": "Southern",
+      "IncidentCategory": "Warrant",
+      "num_incidents": 1939,
+      "cat_rank": 5
+    },
+    {
+      "PoliceDistrict": "Taraval",
+      "IncidentCategory": "Larceny Theft",
+      "num_incidents": 4260,
+      "cat_rank": 1
+    },
+    {
+      "PoliceDistrict": "Taraval",
+      "IncidentCategory": "Malicious Mischief",
+      "num_incidents": 1184,
+      "cat_rank": 2
+    },
+    {
+      "PoliceDistrict": "Taraval",
+      "IncidentCategory": "Motor Vehicle Theft",
+      "num_incidents": 1091,
+      "cat_rank": 3
+    },
+    {
+      "PoliceDistrict": "Taraval",
+      "IncidentCategory": "Burglary",
+      "num_incidents": 1026,
+      "cat_rank": 4
+    },
+    {
+      "PoliceDistrict": "Taraval",
+      "IncidentCategory": "Fraud",
+      "num_incidents": 1013,
+      "cat_rank": 5
+    },
+    {
+      "PoliceDistrict": "Tenderloin",
+      "IncidentCategory": "Drug Offense",
+      "num_incidents": 4568,
+      "cat_rank": 1
+    },
+    {
+      "PoliceDistrict": "Tenderloin",
+      "IncidentCategory": "Warrant",
+      "num_incidents": 3418,
+      "cat_rank": 2
+    },
+    {
+      "PoliceDistrict": "Tenderloin",
+      "IncidentCategory": "Larceny Theft",
+      "num_incidents": 2482,
+      "cat_rank": 3
+    },
+    {
+      "PoliceDistrict": "Tenderloin",
+      "IncidentCategory": "Assault",
+      "num_incidents": 2438,
+      "cat_rank": 4
+    },
+    {
+      "PoliceDistrict": "Tenderloin",
+      "IncidentCategory": "Other Miscellaneous",
+      "num_incidents": 2232,
+      "cat_rank": 5
+    }
+  ],
+  "date_quality_check": [
+    {
+      "table_name": "sfcrime2025",
+      "earliest_date": "2025/01/02",
+      "latest_date": "2026/04/25",
+      "rows_dated_2026": 26462,
+      "total_rows": 121194
+    }
+  ]
+}

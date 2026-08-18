@@ -132,6 +132,39 @@ The clearance rate (Cite or Arrest Adult) improved from 23.62% to 30.40% year-ov
 
 ---
 
+## Interactive Dashboard (Python + SQL, reproducible)
+
+`sf_crime_dashboard.html` is a self-contained, interactive dashboard that communicates the
+findings above — open it directly in any browser, no server or install needed.
+
+It's built by `analysis/run_analysis.py`, a heavily-commented Python script that reproduces
+the MySQL analysis above **without needing a MySQL server**:
+
+1. `pandas.read_csv()` loads both raw CSVs.
+2. `df.to_sql()` loads them into a local SQLite database.
+3. The same SQL logic as `SF_crime_analysis.sql` (cleaning view, year-over-year comparison,
+   category/district/resolution breakdowns, day-of-week and monthly seasonality, and the
+   district safety ranking) runs against SQLite instead of MySQL.
+4. Results are exported to `analysis/output/*.csv` and bundled into
+   `analysis/output/dashboard_data.json`, which the dashboard embeds directly.
+
+To regenerate everything from scratch:
+
+```bash
+pip install pandas
+python3 analysis/run_analysis.py     # writes analysis/output/*.csv + dashboard_data.json
+```
+
+Then rebuild the dashboard HTML by embedding the fresh JSON into
+`analysis/dashboard_template.html` (see the script's Step 10 comment for the exact fields).
+
+Every number in the dashboard was independently recomputed with this pipeline and matched
+the original MySQL results exactly (109,342 / 94,280 / -13.78% YoY, same category and
+district rankings) — a useful sanity check that the two approaches (MySQL window functions
+vs. SQLite + pandas) agree.
+
+---
+
 ## Lingering Questions
 
 - Does the 2025 decrease reflect an actual reduction in crime, or a reporting/backlog lag (2025 cases still being processed or reclassified after extraction)?

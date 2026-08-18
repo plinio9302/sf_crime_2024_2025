@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SF Crime 2024 vs 2025 — Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1" integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ" crossorigin="anonymous"></script>
+<style>
+:root{
+  --bg-primary:#f6f7f9; --bg-card:#ffffff; --bg-header:#132743;
+  --text-primary:#1c2733; --text-secondary:#5b6b7a; --text-on-dark:#f2f5f8;
+  --color-1:#3b6fa0; --color-2:#dd8452; --color-3:#4f9d69; --color-4:#c44e52;
+  --color-5:#8172b3; --color-6:#937860; --color-7:#4aa9b8;
+  --positive:#2e8b47; --negative:#c1443b; --neutral:#6c757d;
+  --gap:16px; --radius:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg-primary);color:var(--text-primary);line-height:1.55}
+.wrap{max-width:1320px;margin:0 auto;padding:var(--gap)}
+header{background:var(--bg-header);color:var(--text-on-dark);padding:22px 26px;border-radius:var(--radius);margin-bottom:var(--gap)}
+header h1{font-size:21px;font-weight:700}
+header p{font-size:13px;color:#b7c4d3;margin-top:6px;max-width:900px}
+.tabs{display:flex;gap:8px;margin:14px 0 var(--gap);flex-wrap:wrap}
+.tab-btn{background:var(--bg-card);border:1px solid #dbe1e8;color:var(--text-secondary);padding:8px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer}
+.tab-btn.active{background:var(--bg-header);color:#fff;border-color:var(--bg-header)}
+.edu{background:#eef4fb;border-left:4px solid var(--color-1);border-radius:6px;padding:14px 16px;margin-bottom:var(--gap);font-size:13.5px;color:#233648}
+.edu b{color:#132743}
+.edu.warn{background:#fdf1ea;border-left-color:var(--color-2)}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--gap);margin-bottom:var(--gap)}
+.kpi-card{background:var(--bg-card);border-radius:var(--radius);padding:18px 22px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.kpi-label{font-size:12px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi-value{font-size:26px;font-weight:700}
+.kpi-change{font-size:12.5px;font-weight:600;margin-top:4px}
+.kpi-change.positive{color:var(--positive)} .kpi-change.negative{color:var(--negative)}
+.chart-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:var(--gap);margin-bottom:var(--gap)}
+.chart-row.two{grid-template-columns:1fr 1fr}
+.chart-container{background:var(--bg-card);border-radius:var(--radius);padding:18px 22px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.chart-container h3{font-size:14px;font-weight:700;margin-bottom:4px}
+.chart-container .sub{font-size:12px;color:var(--text-secondary);margin-bottom:14px}
+.chart-container canvas{max-height:320px}
+.table-section{background:var(--bg-card);border-radius:var(--radius);padding:18px 22px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow-x:auto;margin-bottom:var(--gap)}
+.table-section h3{font-size:14px;font-weight:700;margin-bottom:12px}
+.data-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.data-table thead th{text-align:left;padding:9px 10px;border-bottom:2px solid #dfe4ea;color:var(--text-secondary);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px;cursor:pointer;white-space:nowrap}
+.data-table tbody td{padding:9px 10px;border-bottom:1px solid #f0f2f5}
+.data-table tbody tr:hover{background:#f8f9fb}
+.filters{display:flex;gap:10px;align-items:center;margin:10px 0 var(--gap);flex-wrap:wrap}
+.filters select{padding:7px 10px;border:1px solid #cfd7df;border-radius:6px;background:#fff;font-size:13px}
+.section{display:none}
+.section.active{display:block}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
+.badge.up{background:#fdeceb;color:var(--negative)}
+.badge.down{background:#e9f6ec;color:var(--positive)}
+footer{text-align:center;color:var(--text-secondary);font-size:12px;padding:18px 0 6px}
+@media(max-width:768px){.kpi-row{grid-template-columns:repeat(2,1fr)}.chart-row,.chart-row.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SF Crime Analysis — 2024 vs 2025</h1>
+    <p>An educational, self-contained walkthrough of a real Python + SQL analysis of 230,000+ San Francisco Police Department incident reports.
+       Every panel below is annotated with what the underlying SQL query does and why — this dashboard doubles as a teaching artifact for the pipeline that built it.</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="overview">1. Overview &amp; Data Quality</button>
+    <button class="tab-btn" data-tab="trends">2. Category &amp; District Trends</button>
+    <button class="tab-btn" data-tab="time">3. Time Patterns</button>
+    <button class="tab-btn" data-tab="safety">4. Safety Ranking</button>
+    <button class="tab-btn" data-tab="howbuilt">5. How This Was Built</button>
+  </div>
+
+  <!-- ============ SECTION 1: OVERVIEW ============ -->
+  <section id="overview" class="section active">
+    <div class="edu warn">
+      <b>Step 1 — The most important thing we found before trusting any number:</b>
+      the file <code>SFcrime2025_processed.csv</code> is <i>not</i> a clean calendar year.
+      It's a rolling export that runs from 2025-01-02 through 2026-04-25, so 26,462 of its 121,194 rows
+      are actually incidents dated in <b>2026</b>. If you just count rows in "the 2025 file", crime looks like it went
+      <span class="badge up">UP</span>. Once you filter every query by the real <code>IncidentDate</code> year instead
+      of which file a row came from, the conclusion flips to <span class="badge down">DOWN 13.78%</span>.
+      This is a classic "trust the data, not the filename" lesson — see Tab 5 for the exact SQL.
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi-card"><div class="kpi-label">2024 Incidents (true calendar year)</div><div class="kpi-value">109,342</div></div>
+      <div class="kpi-card"><div class="kpi-label">2025 Incidents (true calendar year)</div><div class="kpi-value">94,280</div></div>
+      <div class="kpi-card"><div class="kpi-label">Year-over-year change</div><div class="kpi-value" style="color:var(--positive)">-13.78%</div><div class="kpi-change positive">15,062 fewer incidents</div></div>
+      <div class="kpi-card"><div class="kpi-label">Clearance rate improvement</div><div class="kpi-value">23.6% → 30.4%</div><div class="kpi-change positive">Cite/Arrest Adult share, 2024→2025</div></div>
+    </div>
+
+    <div class="chart-row two">
+      <div class="chart-container">
+        <h3>Total Incidents by Year</h3>
+        <div class="sub">SQL: <code>GROUP BY incident_year WHERE incident_year IN (2024,2025)</code> on the cleaned, unified view.</div>
+        <canvas id="chartYoY"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Case Resolution Outcomes</h3>
+        <div class="sub">Share of cases by outcome, each year. Clearance (Cite/Arrest) rose even as total volume fell.</div>
+        <canvas id="chartResolution"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 2: TRENDS ============ -->
+  <section id="trends" class="section">
+    <div class="edu">
+      <b>Step 2 — Which crime types and districts moved the needle?</b>
+      A window function (<code>SUM(...) OVER (PARTITION BY incident_year)</code>) computes each category's
+      <i>share</i> of that year's total in one pass — no self-join needed. Then a separate JOIN compares raw counts
+      year-over-year per category so we can rank the biggest movers.
+    </div>
+
+    <div class="chart-row two">
+      <div class="chart-container">
+        <h3>Top Crime Categories (2025)</h3>
+        <div class="sub">Larceny Theft is still #1, but its <i>share</i> of all crime shrank from 24.1% to 21.5%.</div>
+        <canvas id="chartCategory"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Incidents by Police District</h3>
+        <div class="sub">Southern overtook Mission as the top-volume district in 2025.</div>
+        <canvas id="chartDistrict"></canvas>
+      </div>
+    </div>
+
+    <div class="table-section">
+      <h3>Biggest Year-over-Year Movers by Category</h3>
+      <div class="sub" style="margin-bottom:10px">Click a column header to sort. <code>pct_change</code> compares 2024 → 2025 for categories with a meaningful base volume.</div>
+      <table class="data-table" id="tblMovers"></table>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 3: TIME ============ -->
+  <section id="time" class="section">
+    <div class="edu">
+      <b>Step 3 — Does crime follow a weekly or seasonal rhythm?</b>
+      Two GROUP BY queries on the cleaned view: one by <code>day_of_week</code> (derived with <code>DAYNAME()</code> in MySQL /
+      the day-name column from the raw data here), one by <code>incident_month</code>. SQLite doesn't have MySQL's
+      <code>FIELD()</code> function to force weekday order, so that sort is done in pandas instead — a good example of
+      splitting work between SQL (aggregation) and Python (presentation logic).
+    </div>
+    <div class="chart-row two">
+      <div class="chart-container">
+        <h3>Incidents by Day of Week</h3>
+        <div class="sub">Wednesday and Friday are the busiest days; Sunday is the quietest.</div>
+        <canvas id="chartDow"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Monthly Seasonality, 2024 vs 2025</h3>
+        <div class="sub">Every single month of 2025 came in below its 2024 counterpart — a broad decline, not one outlier month.</div>
+        <canvas id="chartMonth"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 4: SAFETY ============ -->
+  <section id="safety" class="section">
+    <div class="edu">
+      <b>Step 4 — Ranking districts by "safety."</b>
+      We define safety here purely as <i>incident volume</i>: <code>RANK() OVER (ORDER BY COUNT(*) ASC)</code> across
+      the combined two-year total. <b>Caveat:</b> this measures volume, not severity or population density — a
+      district could rank "less safe" simply because more people live or work there. Treat this as a starting point
+      for further investigation, not a verdict.
+    </div>
+    <div class="table-section">
+      <h3>District Safety Ranking (fewest incidents = safest)</h3>
+      <table class="data-table" id="tblSafety"></table>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 5: HOW BUILT ============ -->
+  <section id="howbuilt" class="section">
+    <div class="edu">
+      <b>Step 5 — The pipeline behind this dashboard, end to end:</b>
+      <ol style="margin:10px 0 0 20px">
+        <li><b>pandas.read_csv()</b> loads the two raw SFPD CSVs (109,626 and 121,194 rows).</li>
+        <li><b>df.to_sql()</b> loads both DataFrames into a local SQLite database — no server required.</li>
+        <li>A <b>SQL view</b> (<code>sfcrime_combined_clean</code>) unions the two years, drops rows with missing
+            category/district, and derives <code>incident_year</code> straight from <code>IncidentDate</code>
+            (never from which file a row came from).</li>
+        <li>Nine <b>SQL queries</b> — the same structure as the original MySQL analysis — answer the case-study's
+            questions: year-over-year totals, category/district/resolution breakdowns, day-of-week and monthly
+            seasonality, and the district safety ranking.</li>
+        <li>Each query's result is pulled back into <b>pandas</b>, exported to CSV for reuse, and bundled into
+            <code>dashboard_data.json</code> — the exact numbers rendered in this dashboard.</li>
+        <li>This HTML file embeds that JSON directly and renders it with <b>Chart.js</b>, so the dashboard opens and
+            works completely offline — no server, no live database connection.</li>
+      </ol>
+      <p style="margin-top:12px">Full source: <code>analysis/run_analysis.py</code> (heavily commented) and
+      <code>SF_crime_analysis.sql</code> (the original MySQL version) in this repository.</p>
+    </div>
+  </section>
+
+  <footer>Data source: SF Police Department Open Data (data.sfgov.org) · Pipeline: Python (pandas + sqlite3) + SQL · plinio9302/sf_crime_2024_2025</footer>
+</div>
+
+<script>
+const DATA = __DATA_JSON__;
+
+const COLORS = ['#3b6fa0','#dd8452','#4f9d69','#c44e52','#8172b3','#937860','#4aa9b8','#c9a227'];
+
+function fmt(n){ if(n===null||n===undefined) return '—'; return Number(n).toLocaleString(); }
+
+// Each dashboard section is independent: if one chart fails to render (e.g. no
+// network access to the Chart.js CDN), the rest of the page — including the
+// data tables below, which don't depend on Chart.js at all — still works.
+function safe(label, fn){
+  try { fn(); }
+  catch(e){ console.error('Dashboard section failed:', label, e); }
+}
+
+// ---- Tabs ----
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ---- Chart: YoY totals ----
+safe('chartYoY', () => new Chart(document.getElementById('chartYoY'), {
+  type: 'bar',
+  data: {
+    labels: DATA.yoy_totals.map(r=>r.incident_year),
+    datasets: [{ label:'Total Incidents', data: DATA.yoy_totals.map(r=>r.total_incidents),
+      backgroundColor: [COLORS[0], COLORS[2]], borderRadius:4 }]
+  },
+  options: { responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmt(c.parsed.y)+' incidents'}}},
+    scales:{ y:{beginAtZero:true, ticks:{callback:v=>fmt(v)}} } }
+}));
+
+// ---- Chart: Resolution ----
+safe('chartResolution', () => {
+  const years = [...new Set(DATA.by_resolution.map(r=>r.incident_year))].sort();
+  const resolutions = [...new Set(DATA.by_resolution.map(r=>r.Resolution))];
+  const datasets = years.map((y,i)=>({
+    label: String(y),
+    data: resolutions.map(res => {
+      const row = DATA.by_resolution.find(r=>r.incident_year===y && r.Resolution===res);
+      return row ? row.pct_of_year : 0;
+    }),
+    backgroundColor: COLORS[i]
+  }));
+  new Chart(document.getElementById('chartResolution'), {
+    type:'bar',
+    data:{ labels: resolutions, datasets },
+    options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{ tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.x+'%'}} },
+      scales:{ x:{ ticks:{callback:v=>v+'%'} } } }
+  });
+});
+
+// ---- Chart: Category (2025, top 8) ----
+safe('chartCategory', () => {
+  const rows = DATA.by_category.filter(r=>r.incident_year===2025).slice(0,8);
+  new Chart(document.getElementById('chartCategory'), {
+    type:'bar',
+    data:{ labels: rows.map(r=>r.IncidentCategory),
+      datasets:[{ label:'2025 incidents', data: rows.map(r=>r.num_crimes), backgroundColor: COLORS[0], borderRadius:4 }] },
+    options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmt(c.parsed.x)+' incidents'}}},
+      scales:{ x:{beginAtZero:true, ticks:{callback:v=>fmt(v)}} } }
+  });
+});
+
+// ---- Chart: District (2025, sorted) ----
+safe('chartDistrict', () => {
+  const rows = DATA.by_district.filter(r=>r.incident_year===2025);
+  new Chart(document.getElementById('chartDistrict'), {
+    type:'bar',
+    data:{ labels: rows.map(r=>r.PoliceDistrict),
+      datasets:[{ label:'2025 incidents', data: rows.map(r=>r.num_crimes), backgroundColor: COLORS[1], borderRadius:4 }] },
+    options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmt(c.parsed.x)+' incidents'}}},
+      scales:{ x:{beginAtZero:true, ticks:{callback:v=>fmt(v)}} } }
+  });
+});
+
+// ---- Chart: Day of week ----
+safe('chartDow', () => new Chart(document.getElementById('chartDow'), {
+  type:'line',
+  data:{ labels: DATA.by_day_of_week.map(r=>r.day_of_week),
+    datasets:[
+      { label:'2024', data: DATA.by_day_of_week.map(r=>r.incidents_2024), borderColor:COLORS[0], backgroundColor:COLORS[0]+'20', tension:.3, fill:false },
+      { label:'2025', data: DATA.by_day_of_week.map(r=>r.incidents_2025), borderColor:COLORS[2], backgroundColor:COLORS[2]+'20', tension:.3, fill:false }
+    ] },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}} },
+    scales:{ y:{beginAtZero:true, ticks:{callback:v=>fmt(v)}} } }
+}));
+
+// ---- Chart: Monthly seasonality ----
+safe('chartMonth', () => new Chart(document.getElementById('chartMonth'), {
+  type:'line',
+  data:{ labels: DATA.by_month.map(r=>r.month_name),
+    datasets:[
+      { label:'2024', data: DATA.by_month.map(r=>r.incidents_2024), borderColor:COLORS[0], backgroundColor:COLORS[0]+'20', tension:.3, fill:false },
+      { label:'2025', data: DATA.by_month.map(r=>r.incidents_2025), borderColor:COLORS[2], backgroundColor:COLORS[2]+'20', tension:.3, fill:false }
+    ] },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}} },
+    scales:{ y:{beginAtZero:true, ticks:{callback:v=>fmt(v)}} } }
+}));
+
+// ---- Table: Movers ----
+safe('tblMovers', () => {
+  const rows = [...DATA.yoy_category].filter(r=>r.incidents_2024>=100)
+    .sort((a,b)=>b.pct_change-a.pct_change);
+  const top = rows.slice(0,6), bottom = rows.slice(-6).reverse();
+  const combined = [...top, ...bottom];
+  let html = '<thead><tr><th>Category</th><th>2024</th><th>2025</th><th>Net Change</th><th>% Change</th></tr></thead><tbody>';
+  combined.forEach(r=>{
+    const cls = r.pct_change>=0 ? 'negative' : 'positive'; // more crime = red, less = green
+    html += `<tr><td>${r.category}</td><td>${fmt(r.incidents_2024)}</td><td>${fmt(r.incidents_2025)}</td><td>${fmt(r.net_change)}</td><td style="color:var(--${cls})">${r.pct_change}%</td></tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('tblMovers').innerHTML = html;
+});
+
+// ---- Table: Safety ranking ----
+safe('tblSafety', () => {
+  let html = '<thead><tr><th>Rank</th><th>District</th><th>2024</th><th>2025</th><th>Total (2yr)</th></tr></thead><tbody>';
+  DATA.safety_rank.forEach(r=>{
+    html += `<tr><td>${r.safety_rank}</td><td>${r.PoliceDistrict}</td><td>${fmt(r.incidents_2024)}</td><td>${fmt(r.incidents_2025)}</td><td>${fmt(r.total_incidents)}</td></tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('tblSafety').innerHTML = html;
+});
+</script>
+</body>
+</html>

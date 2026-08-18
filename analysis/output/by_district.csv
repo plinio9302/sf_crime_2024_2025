@@ -1,0 +1,23 @@
+incident_year,PoliceDistrict,num_crimes,pct_of_year
+2024,Mission,14195,12.98
+2024,Southern,13911,12.72
+2024,Central,13689,12.52
+2024,Northern,13329,12.19
+2024,Tenderloin,13320,12.18
+2024,Bayview,9669,8.84
+2024,Ingleside,9004,8.23
+2024,Taraval,7957,7.28
+2024,Richmond,5488,5.02
+2024,Out of SF,4463,4.08
+2024,Park,4317,3.95
+2025,Southern,14841,15.74
+2025,Mission,13480,14.3
+2025,Tenderloin,12388,13.14
+2025,Northern,11019,11.69
+2025,Central,10340,10.97
+2025,Bayview,8190,8.69
+2025,Taraval,6643,7.05
+2025,Ingleside,6491,6.88
+2025,Richmond,4090,4.34
+2025,Park,3632,3.85
+2025,Out of SF,3166,3.36
