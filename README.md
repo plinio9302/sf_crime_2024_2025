@@ -1,7 +1,9 @@
 # SF Crime Analysis: San Francisco Incidents 2024 vs 2025
 
+**🔗 Live dashboard:** [plinio9302.github.io/sf_crime_2024_2025](https://plinio9302.github.io/sf_crime_2024_2025/)
+
 **Author:** Plinio Durango  
-**Tool:** MySQL / SQL, Python (pandas, seaborn)  
+**Tool:** MySQL / SQL, Python (pandas, seaborn, sqlite3)  
 **Dataset:** SFPD Incident Reports 2024 & 2025 (San Francisco Police Department Open Data)  
 **Source:** [SF Open Data Portal](https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports)  
 
